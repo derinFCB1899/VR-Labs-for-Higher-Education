@@ -17,4 +17,9 @@
     <PackageReference Include="MongoDB.Driver" Version="2.22.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Views\StudentAccount\" />
+  </ItemGroup>
+
 </Project>

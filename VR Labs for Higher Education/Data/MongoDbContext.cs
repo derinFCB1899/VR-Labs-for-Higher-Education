@@ -15,7 +15,7 @@
         }
 
         public IMongoCollection<Student> Students => _database.GetCollection<Student>("students");
-        public IMongoCollection<Instructor> Instructors => _database.GetCollection<Instructor>("instructors");
+        //public IMongoCollection<Instructor> Instructors => _database.GetCollection<Instructor>("instructors");
     }
 
 }
