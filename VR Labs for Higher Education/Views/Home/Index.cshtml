@@ -7,7 +7,15 @@
     <p class="lead">Enhancing Practical Learning Experiences through Virtual Labs</p>
     <hr class="my-4">
 
-    <a class="btn btn-primary btn-lg" href="@Url.Action("Login", "")" role="button">Student Login</a>
+    @if (User.Identity.IsAuthenticated)
+    {
+        var fullName = User.FindFirst(c => c.Type == "name")?.Value;
+        <p>Welcome, @fullName!</p>
+    }
+    else
+    {
+        <p>Please sign in with your university account to access the labs.</p>
+    }
 
     <!-- Rest of your content here -->
 </div>

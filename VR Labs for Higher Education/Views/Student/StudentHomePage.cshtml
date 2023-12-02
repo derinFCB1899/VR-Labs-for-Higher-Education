@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "_Layout"; // Set the layout page
+    ViewData["Title"] = "Student Home Page";
+}
+
+<div class="text-center">
+    @if (User.Identity.IsAuthenticated)
+    {
+        var fullName = User.FindFirst(c => c.Type == "name")?.Value;
+        <h2>Welcome @fullName!</h2>
+    }
+    <p>Select a lab to begin your virtual learning experience.</p>
+    <div class="row">
+        <!-- List of labs -->
+        <div class="col-md-4">
+            <div class="lab-tile">
+                <img src="~/images/acid-base-titration.png" alt="Acid-Base Titration" />
+                <h3>Acid-Base Titration</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="lab-tile">
+                <img src="~/images/aspirin-synthesis.png" alt="Aspirin Synthesis" />
+                <h3>Aspirin Synthesis</h3>
+            </div>
+        </div>
+        <!-- Add more lab tiles here -->
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/student-home.js"></script>
+}
