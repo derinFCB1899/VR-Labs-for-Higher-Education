@@ -52,6 +52,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.FallbackPolicy = options.DefaultPolicy;
     options.AddPolicy("InstructorOnly", policy => policy.RequireClaim("Role", "Instructor"));
+    options.AddPolicy("StudentOnly", policy => policy.RequireClaim("Role", "Student"));
 });
 
 builder.Services.AddControllersWithViews();
@@ -97,7 +98,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
         name: "instructorHome",
         pattern: "Instructor/InstructorHomePage",
-        defaults: new { controller = "Student", action = "StudentHomePage" });
+        defaults: new { controller = "Student", action = "InstructorHomePage" });
 });
 
 

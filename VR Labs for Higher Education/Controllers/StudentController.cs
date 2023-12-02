@@ -83,6 +83,7 @@ namespace VR_Labs_for_Higher_Education.Controllers
         }
 
         [HttpGet("StudentHomePage")]
+        [Authorize(Policy = "StudentOnly")]
         public IActionResult StudentHomePage()
         {
             ViewData["FullName"] = User.FindFirst(c => c.Type == "name")?.Value;
