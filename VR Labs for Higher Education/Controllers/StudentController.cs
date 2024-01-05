@@ -41,55 +41,46 @@ namespace VR_Labs_for_Higher_Education.Controllers
             return Ok(student);
         }
 
-        // Additional actions can be added here for create, update, delete operations
-        [Authorize(Policy = "AllowedUsers")]
-        [HttpGet("signin-callback")]
-        public async Task<IActionResult> SignInCallback()
-        {
-            _logger.LogInformation("SignInCallback accessed");
-            if (User.Identity.IsAuthenticated)
-            {
-                try
-                {
-                    var emailClaim = User.FindFirst(c => c.Type == "preferred_username");
-                    var nameClaim = User.FindFirst(c => c.Type == "name");
-                    _logger.LogInformation($"Email claim: {emailClaim?.Value}");
-                    _logger.LogInformation($"Name claim: {nameClaim?.Value}");
-
-                    if (emailClaim != null && emailClaim.Value.EndsWith("@isik.edu.tr"))
-                    {
-                        _logger.LogInformation($"Ensuring student record for {emailClaim.Value}");
-                        var student = await _studentService.EnsureStudentRecord(emailClaim.Value, nameClaim?.Value);
-                        _logger.LogInformation($"Redirecting to StudentHomePage for {emailClaim.Value}");
-                        return RedirectToAction("StudentHomePage", "Student");
-                    }
-                    else
-                    {
-                        _logger.LogInformation($"Non-student login attempt for {nameClaim?.Value}");
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"Error in SignInCallback: {ex.Message}");
-                    return RedirectToAction("SignInFailure");
-                }
-            }
-            else
-            {
-                _logger.LogInformation("User is not authenticated.");
-                return RedirectToAction("SignInFailure");
-            }
-        }
-
         [HttpGet("StudentHomePage")]
-        [Authorize(Policy = "StudentOnly")]
+        [Authorize(Roles = "Student")]
         public IActionResult StudentHomePage()
         {
-            ViewData["FullName"] = User.FindFirst(c => c.Type == "name")?.Value;
+            // You can include logic here to fetch and display student-specific information
+            return View();
+        }
+
+        [HttpGet("StudentLabPage/{id}")]
+        [Authorize(Roles = "Student")]
+        public IActionResult StudentLabPage(string id)
+        {
+            // Temporarily using ViewData to pass the lab ID to the view
+            // Ideally, you would fetch the lab details from the database using a lab service
+            ViewData["LabId"] = id;
+
+            // You could also use ViewBag
+            // ViewBag.LabId = id;
+
+            return View();
+        }
+
+        // Add to your StudentController
+
+        [HttpGet("PlayLab")]
+        //[Authorize(Roles = "Student")]
+        public IActionResult PlayLab()
+        {
+            // Path to the Unity WebGL index.html file
+            var pathToUnityGame = "/WebSimulation/unitygame.html";
+            ViewBag.PathToUnityGame = pathToUnityGame;
+            return View("PlayLab");
+        }
+
+        [HttpGet("StudentProfilePage")]
+        [Authorize(Roles = "Student")]
+        public IActionResult StudentProfilePage()
+        {
             return View();
         }
 
     }
-
 }

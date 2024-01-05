@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace VR_Labs_for_Higher_Education.Services
 {
@@ -61,6 +62,25 @@ namespace VR_Labs_for_Higher_Education.Services
                 _logger.LogError($"Error ensuring instructor record for email: {email}, Exception: {ex}");
                 throw;
             }
+        }
+
+        public async Task<Instructor> FindByEmailAsync(string email)
+        {
+            return await _instructors.Find(instructor => instructor.Email == email).FirstOrDefaultAsync();
+        }
+
+        public string HashPassword(string password)
+        {
+            var hasher = new PasswordHasher<Instructor>();
+            return hasher.HashPassword(null, password);
+        }
+
+        public bool VerifyPassword(Instructor instructor, string providedPassword)
+        {
+            var hasher = new PasswordHasher<Instructor>();
+            var result = hasher.VerifyHashedPassword(null, instructor.PasswordHash, providedPassword);
+            _logger.LogWarning("Successfully matched passwords for instructor.");
+            return result == PasswordVerificationResult.Success;
         }
 
 

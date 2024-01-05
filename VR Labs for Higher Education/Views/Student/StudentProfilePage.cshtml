@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Student Profile Page";
+}
+
+<link rel="stylesheet" href="~/css/site.css">
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="profile-sidebar">
+                
+                <div class="profile-userpic">
+                    <img src="~/images/user.png" class="img-responsive" alt="Profile Picture">
+                </div>
+                
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            var fullName = User.FindFirst(c => c.Type == "name")?.Value;
+                            <h2>@fullName</h2> <!-- Display the user's name dynamically -->
+                        }
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="profile-content">
+                <h2>Grades</h2>
+                <ul class="grades-list">
+                    
+                    @* Replace with dynamic model data *@
+                    <li>Lab 1: -</li>
+                    <li>Lab 2: -</li>
+                    <li>Lab 3: -</li>
+                    
+                </ul>
+                <h2>Awards</h2>
+                <div class="awards">
+                    
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <img src="~/images/achievement.png" alt="Achievement">
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/student-profile.js"></script>
+}

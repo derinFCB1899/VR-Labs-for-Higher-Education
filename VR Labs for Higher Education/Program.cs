@@ -1,71 +1,48 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
-using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using MongoDB.Driver;
 using VR_Labs_for_Higher_Education.Services;
-using System.IdentityModel.Tokens.Jwt;
-Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = false;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Retrieve the MongoDB connection string from the configuration
+// MongoDB connection
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
-
-// Register IMongoDatabase with the necessary connection string and database name
 builder.Services.AddSingleton<IMongoDatabase>(sp =>
 {
     var client = new MongoClient(mongoDBConnectionString);
-    return client.GetDatabase("users"); // Replace "users" with the actual database name if different
+    return client.GetDatabase("users");
 });
 
-// Add services to the container.
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-})
-.AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
-
-builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
-{
-    options.Events = new OpenIdConnectEvents
+// Cookie Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
     {
-        OnTokenValidated = ctx =>
-        {
-            var idToken = ctx.SecurityToken as JwtSecurityToken;
-            if (idToken != null)
-            {
-                // Log the raw ID token
-                Console.WriteLine($"ID Token: {idToken.RawData}");
-                // WARNING: Only log tokens in a development environment. Never log tokens in production.
-            }
-            return Task.CompletedTask;
-        },
-        // ... existing event handlers ...
-    };
+        options.Cookie.HttpOnly = true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.SlidingExpiration = true;
+    });
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
-// Require authentication by default
-builder.Services.AddAuthorization(options =>
-{
-    options.FallbackPolicy = options.DefaultPolicy;
-    options.AddPolicy("InstructorOnly", policy => policy.RequireClaim("Role", "Instructor"));
-    options.AddPolicy("StudentOnly", policy => policy.RequireClaim("Role", "Student"));
-});
+builder.Services.AddAuthorization();
 
 builder.Services.AddControllersWithViews();
 
+// Scoped services
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<InstructorService>();
 
-builder.Logging.AddConsole();
-builder.Logging.AddDebug();
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware configuration
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -73,33 +50,18 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
-app.UseAuthentication(); // Add this before app.UseAuthorization
+app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    endpoints.MapControllerRoute(
-        name: "studentHome",
-        pattern: "Student/StudentHomePage",
-        defaults: new { controller = "Student", action = "StudentHomePage" });
-
-    endpoints.MapControllerRoute(
-        name: "instructorHome",
-        pattern: "Instructor/InstructorHomePage",
-        defaults: new { controller = "Student", action = "InstructorHomePage" });
+    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 });
-
 
 app.Run();

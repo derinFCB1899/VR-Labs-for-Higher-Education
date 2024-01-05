@@ -2,7 +2,8 @@
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging; // Ensure this using directive is added
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity; // Ensure this using directive is added
 
 public class StudentService
 {
@@ -62,5 +63,23 @@ public class StudentService
         }
     }
 
+    public async Task<Student> FindByEmailAsync(string email)
+    {
+        return await _students.Find(student => student.Email == email).FirstOrDefaultAsync();
+    }
+
+    public string HashPassword(string password)
+    {
+        var hasher = new PasswordHasher<Student>();
+        return hasher.HashPassword(null, password);
+    }
+
+    public bool VerifyPassword(Student student, string providedPassword)
+    {
+        var hasher = new PasswordHasher<Student>();
+        var result = hasher.VerifyHashedPassword(null, student.PasswordHash, providedPassword);
+        _logger.LogWarning("Successfully matched passwords for student.");
+        return result == PasswordVerificationResult.Success;
+    }
 
 }

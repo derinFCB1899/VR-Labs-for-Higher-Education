@@ -12,7 +12,10 @@ namespace VR_Labs_for_Higher_Education.Models
         [BsonElement("email")]
         public string Email { get; set; }
 
-        [BsonElement("fullName")]
+        [BsonElement("passwordHash")]
+        public string PasswordHash { get; set; }
+
+        [BsonElement("name")]
         public string Name { get; set; }
 
         public Instructor()

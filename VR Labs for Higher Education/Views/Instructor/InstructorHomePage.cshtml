@@ -4,13 +4,17 @@
 }
 
 <div class="text-center">
-    <h2>Welcome AHMET DERIN ÇABUK!</h2>
+    @if (User.Identity.IsAuthenticated)
+    {
+        var fullName = User.FindFirst(c => c.Type == "name")?.Value;
+        <h2>Welcome @fullName!</h2> <!-- Display the user's name dynamically -->
+    }
     <p>Select a lab to begin your virtual learning experience.</p>
     <div class="row">
         <!-- List of labs -->
         <div class="col-md-4">
             <div class="lab-tile">
-                <img src="~/images/acid-base-titration.png" alt="Acid-Base Titration" />
+                <img src="~/images/acidbasetitration.jpg" alt="Acid-Base Titration" />
                 <h3>Acid-Base Titration</h3>
             </div>
         </div>

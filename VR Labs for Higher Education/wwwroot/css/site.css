@@ -16,3 +16,66 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+/* Student profile page styles */
+
+.profile-sidebar {
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.profile-userpic img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.profile-usertitle {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-usertitle-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 7px;
+}
+
+.grades-list,
+.awards {
+    padding: 0;
+    list-style-type: none;
+}
+
+    .grades-list li,
+    .awards img {
+        margin-bottom: 10px;
+    }
+
+/* Awards styling */
+.awards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: start;
+}
+
+    .awards img {
+        width: 50px;
+        height: auto;
+    }
+
+/* Responsive layout adjustments */
+@media (max-width: 768px) {
+    .profile-sidebar,
+    .profile-content {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .awards img {
+        width: 30px; /* Smaller medals on mobile */
+    }
+}

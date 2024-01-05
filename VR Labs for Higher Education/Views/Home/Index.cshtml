@@ -2,20 +2,8 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container text-center mt-5">
-    <h1 class="display-4">Welcome to VR Labs for Higher Education</h1>
-    <p class="lead">Enhancing Practical Learning Experiences through Virtual Labs</p>
+<div class="text-center mt-5">
+    <h1 class="display-4">Welcome to VR Labs for Higher Education!</h1>
+    <p class="lead">VR Labs for Higher Education, particularly those developed using Unity, offer immersive, virtual reality simulations of laboratory environments, providing an innovative educational tool for students. These simulated labs allow for safe, cost-effective, and accessible learning experiences, where students can conduct experiments and explore scientific concepts that might be too dangerous, expensive, or impractical in real-world settings. Leveraging Unity's robust graphics and interactive capabilities, these VR environments enhance student understanding by visualizing complex subjects, fostering hands-on learning, and enabling repeated experimentation without physical resource constraints. Such technology-driven educational solutions are instrumental in developing practical skills and adapting to modern learning methodologies, making science education more engaging and effective.</p>
     <hr class="my-4">
-
-    @if (User.Identity.IsAuthenticated)
-    {
-        var fullName = User.FindFirst(c => c.Type == "name")?.Value;
-        <p>Welcome, @fullName!</p>
-    }
-    else
-    {
-        <p>Please sign in with your university account to access the labs.</p>
-    }
-
-    <!-- Rest of your content here -->
 </div>
