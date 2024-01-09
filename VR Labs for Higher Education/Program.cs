@@ -26,6 +26,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
