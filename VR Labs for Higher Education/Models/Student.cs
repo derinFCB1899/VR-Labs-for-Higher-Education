@@ -17,7 +17,6 @@ namespace VR_Labs_for_Higher_Education.Models
     {
         public string Title { get; set; }
         public DateTime DateAchieved { get; set; }
-        // Additional fields as needed
     }
 
     public class Student

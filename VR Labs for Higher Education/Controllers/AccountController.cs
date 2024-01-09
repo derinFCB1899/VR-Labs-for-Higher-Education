@@ -27,10 +27,10 @@ public class AccountController : Controller
         _logger = logger;
     }
 
-    public IActionResult AzureLogin(string returnUrl = "/")
+    /*public IActionResult AzureLogin(string returnUrl = "/")
     {
         return Challenge(new AuthenticationProperties { RedirectUri = returnUrl }, OpenIdConnectDefaults.AuthenticationScheme);
-    }
+    }*/
 
     // In your AccountController or a separate AuthService:
 
@@ -94,7 +94,7 @@ public class AccountController : Controller
     {
         new Claim(ClaimTypes.Email, model.Email),
         new Claim(ClaimTypes.Role, role),
-        new Claim("name", userName) // Add this line
+        new Claim("name", userName)
     };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -127,5 +127,3 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 }
-
-//s

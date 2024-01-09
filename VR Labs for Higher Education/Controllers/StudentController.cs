@@ -70,7 +70,7 @@ namespace VR_Labs_for_Higher_Education.Controllers
         public IActionResult PlayLab()
         {
             // Path to the Unity WebGL index.html file
-            var pathToUnityGame = "/WebSimulation/unitygame.html";
+            var pathToUnityGame = "~/titrationLab.html";
             ViewBag.PathToUnityGame = pathToUnityGame;
             return View("PlayLab");
         }

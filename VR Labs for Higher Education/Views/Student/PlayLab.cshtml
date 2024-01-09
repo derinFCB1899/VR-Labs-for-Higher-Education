@@ -1,5 +1,6 @@
 ﻿@{
-    Layout = null; // Optional: Remove the layout if you want the game to take up the whole page
+    Layout = "_Layout"; // Set the layout page
+    ViewData["Title"] = "Acid Base Titration";
 }
 
 <!DOCTYPE html>
@@ -11,6 +12,6 @@
     <script type="text/javascript" src="~/js/UnityProgress.js"></script>
 </head>
 <body>
-    <iframe src="@ViewBag.PathToUnityGame" width="960" height="600" frameborder="0"></iframe>
+    <iframe src="~/titrationLab.html" width="960" height="600" frameborder="0"></iframe>
 </body>
 </html>
