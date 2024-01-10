@@ -5,20 +5,6 @@ using System.Collections.Generic;
 
 namespace VR_Labs_for_Higher_Education.Models
 {
-    public class LabProgress
-    {
-        public string LabId { get; set; }
-        public DateTime LastWorkedOn { get; set; }
-        public bool IsCompleted { get; set; }
-        // Additional fields as needed
-    }
-
-    public class Achievement
-    {
-        public string Title { get; set; }
-        public DateTime DateAchieved { get; set; }
-    }
-
     public class Student
     {
         [BsonId]
@@ -31,21 +17,63 @@ namespace VR_Labs_for_Higher_Education.Models
         [BsonElement("passwordHash")]
         public string PasswordHash { get; set; }
 
-
         [BsonElement("name")]
         public string Name { get; set; }
-
 
         [BsonElement("labProgress")]
         public List<LabProgress> LabProgress { get; set; }
 
         [BsonElement("achievements")]
-        public List<Achievement> Achievements { get; set; } 
+        public List<Achievement> Achievements { get; set; }
 
         public Student()
         {
             LabProgress = new List<LabProgress>();
             Achievements = new List<Achievement>();
         }
+    }
+
+    public class LabProgress
+    {
+        [BsonElement("labId")]
+        public string LabId { get; set; }
+
+        [BsonElement("isComplete")]
+        public bool IsComplete { get; set; }
+
+        [BsonElement("grade")]
+        public double? Grade { get; set; } // Nullable grade
+
+        [BsonElement("checkpoints")]
+        public List<LabCheckpoint> Checkpoints { get; set; }
+
+        public LabProgress()
+        {
+            IsComplete = false; // Initialize as not complete by default
+            Checkpoints = new List<LabCheckpoint>();
+        }
+    }
+
+    public class LabCheckpoint
+    {
+        [BsonElement("name")]
+        public string Name { get; set; }
+
+        [BsonElement("timestamp")]
+        public DateTime? Timestamp { get; set; } // Nullable timestamp
+
+        public LabCheckpoint()
+        {
+            Timestamp = null; // Initialize as null by default
+        }
+    }
+
+    public class Achievement
+    {
+        [BsonElement("title")]
+        public string Title { get; set; }
+
+        [BsonElement("dateAchieved")]
+        public DateTime DateAchieved { get; set; }
     }
 }

@@ -1,26 +1,45 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+
+namespace VR_Labs_for_Higher_Education.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class LabController : ControllerBase
 {
-    // Assume you have some data access layer or service to interact with the database
-    // For simplicity, let's just log the received data
+    private readonly LabService _labService;
     private readonly ILogger<LabController> _logger;
 
-    public LabController(ILogger<LabController> logger)
+    public LabController(LabService labService, ILogger<LabController> logger)
     {
+        _labService = labService;
         _logger = logger;
     }
 
     [HttpPost("ToggleAction")]
-    public IActionResult ToggleAction([FromBody] ToggleActionModel toggle)
+    public async Task<IActionResult> ToggleAction([FromBody] ToggleActionModel toggle)
     {
-        // Log the received toggle action and timestamp
-        _logger.LogInformation($"Action: {toggle.Action}, Timestamp: {toggle.Timestamp}");
+        try
+        {
+            var toggleIndex = toggle.Action; // This should match the index of the toggle, like "wearGloves"
 
-        // Here you would normally save this information to the database
-        // For now, just return OK to acknowledge receipt of the data
-        return Ok();
+            var fullName = User.FindFirst(c => c.Type == "name")?.Value;
+            var studentId = "659e7132c962e256d8e433d0";
+            await _labService.UpdateCheckpointTimestamp(studentId, "titrationLab", toggleIndex, toggle.Timestamp);
+            _logger.LogInformation(fullName);
+            // Log the action
+            _logger.LogInformation($"Action: {toggle.Action}, Timestamp: {toggle.Timestamp}");
+
+            // Acknowledge the receipt of the data
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            // Log the error
+            _logger.LogError(ex, "Error updating toggle action timestamp");
+            return StatusCode(500, "Internal server error");
+        }
     }
 }

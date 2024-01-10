@@ -1,5 +1,5 @@
 ﻿public class ToggleActionModel
 {
-    public string Action { get; set; }
-    public DateTime Timestamp { get; set; }
+    public int Action { get; set; }
+    public string Timestamp { get; set; }
 }

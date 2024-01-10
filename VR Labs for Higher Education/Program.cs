@@ -7,6 +7,17 @@ using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // MongoDB connection
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
 builder.Services.AddSingleton<IMongoDatabase>(sp =>
@@ -42,6 +53,7 @@ builder.Services.AddControllersWithViews();
 // Scoped services
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<InstructorService>();
+builder.Services.AddScoped<LabService>();
 
 var app = builder.Build();
 
@@ -53,10 +65,13 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseCors("AllowAll");
 app.UseRouting();
 app.UseSession();
 app.UseAuthentication();

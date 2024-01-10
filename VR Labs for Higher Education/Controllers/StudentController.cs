@@ -19,28 +19,6 @@ namespace VR_Labs_for_Higher_Education.Controllers
             _logger = logger;
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> GetStudents()
-        {
-            var students = await _studentService.GetStudentsAsync();
-            return Ok(students);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetStudent(string id)
-        {
-            _logger.LogInformation($"Attempting to retrieve student with ID: {id}");
-            var student = await _studentService.GetStudentAsync(id);
-            if (student == null)
-            {
-                _logger.LogWarning($"Student not found with ID: {id}");
-                return NotFound();
-            }
-            _logger.LogInformation($"Student retrieved with ID: {id}");
-            return Ok(student);
-        }
-
         [HttpGet("StudentHomePage")]
         [Authorize(Roles = "Student")]
         public IActionResult StudentHomePage()

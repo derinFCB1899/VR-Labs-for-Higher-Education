@@ -19,6 +19,7 @@ namespace VR_Labs_for_Higher_Education.Models
         [BsonElement("labGrade")]
         public double Grade { get; set; }
 
+
         public Lab()
         {
             Stages = new List<LabStage>();
