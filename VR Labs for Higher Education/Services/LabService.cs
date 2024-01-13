@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using VR_Labs_for_Higher_Education.Models;
 
 public class LabService
@@ -10,9 +9,9 @@ public class LabService
     {
         _studentCollection = database.GetCollection<Student>("students");
     }
-    public async Task UpdateCheckpointTimestamp(string studentId, string labId, int checkpointIndex, string timestamp)
+    public async Task UpdateCheckpointTimestamp(string studentName, string labId, int checkpointIndex, string timestamp)
     {
-        var studentFilter = Builders<Student>.Filter.Eq(s => s.Id, studentId);
+        var studentFilter = Builders<Student>.Filter.Eq(s => s.Name, studentName);
         var updateDefinition = Builders<Student>.Update.Set(
             $"LabProgress.$.Checkpoints.{checkpointIndex}.Timestamp", timestamp);
 

@@ -22,5 +22,6 @@ namespace VR_Labs_for_Higher_Education.Models
         {
             // Initialize any collections or default values here if needed
         }
+
     }
 }

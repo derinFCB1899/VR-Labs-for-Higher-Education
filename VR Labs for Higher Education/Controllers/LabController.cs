@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace VR_Labs_for_Higher_Education.Controllers;
 
+[Authorize(Roles = "Student")]
 [Route("api/[controller]")]
 [ApiController]
 public class LabController : ControllerBase
@@ -26,8 +27,7 @@ public class LabController : ControllerBase
             var toggleIndex = toggle.Action; // This should match the index of the toggle, like "wearGloves"
 
             var fullName = User.FindFirst(c => c.Type == "name")?.Value;
-            var studentId = "659e7132c962e256d8e433d0";
-            await _labService.UpdateCheckpointTimestamp(studentId, "titrationLab", toggleIndex, toggle.Timestamp);
+            await _labService.UpdateCheckpointTimestamp(fullName, "titrationLab", toggleIndex, toggle.Timestamp);
             _logger.LogInformation(fullName);
             // Log the action
             _logger.LogInformation($"Action: {toggle.Action}, Timestamp: {toggle.Timestamp}");

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// CORS Options (In order to sort out API issues)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// MongoDB connection
+// MongoDB connection (Connects directly to my database in which it includes the collection of users)
 var mongoDBConnectionString = builder.Configuration.GetConnectionString("MongoDBConnection");
 builder.Services.AddSingleton<IMongoDatabase>(sp =>
 {
@@ -50,7 +50,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddControllersWithViews();
 
-// Scoped services
+// Scoped services (In order for them to be able to run)
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<InstructorService>();
 builder.Services.AddScoped<LabService>();
@@ -77,11 +77,11 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Configure static file serving with custom MIME types
+// WebGL Configuration files (.NET 6 Core is not able to parse some files therefore they have to be added here)
 var options = new StaticFileOptions();
 var contentTypeProvider = (FileExtensionContentTypeProvider)options.ContentTypeProvider ?? new FileExtensionContentTypeProvider();
-contentTypeProvider.Mappings[".wasm"] = "application/wasm"; // Adding .wasm MIME type
-contentTypeProvider.Mappings[".data"] = "application/octet-stream"; // Ensure .data is still included
+contentTypeProvider.Mappings[".wasm"] = "application/wasm"; // Adding .wasm MIME type (Included in my WebGL Build folder)
+contentTypeProvider.Mappings[".data"] = "application/octet-stream"; // Ensure .data is still included (Included in my WebGL Build folder)
 options.ContentTypeProvider = contentTypeProvider;
 app.UseStaticFiles(options);
 

@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "_Layout"; // Set the layout page
+    Layout = "_Layout";
     ViewData["Title"] = "Instructor Home Page";
 }
 
@@ -9,14 +9,14 @@
         var fullName = User.FindFirst(c => c.Type == "name")?.Value;
         <h2>Welcome @fullName!</h2> <!-- Display the user's name dynamically -->
     }
-    <p>Select a lab to begin your virtual learning experience.</p>
+    <p>Select a lab to grade the students.</p>
     <div class="row">
         <!-- List of labs -->
         <div class="col-md-4">
-            <div class="lab-tile">
+            <a href="@Url.Action("InstructorGradePage", "Instructor", new { id = "titrationLab" })" class="lab-tile">
                 <img src="~/images/acidbasetitration.jpg" alt="Acid-Base Titration" />
                 <h3>Acid-Base Titration</h3>
-            </div>
+            </a>
         </div>
         <div class="col-md-4">
             <div class="lab-tile">

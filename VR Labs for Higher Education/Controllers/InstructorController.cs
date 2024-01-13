@@ -9,6 +9,7 @@ using System.Text;
 
 namespace VR_Labs_for_Higher_Education.Controllers
 {
+    [Authorize(Roles = "Instructor")]
     [ApiController]
     [Route("[controller]")]
     public class InstructorController : Controller
@@ -41,17 +42,58 @@ namespace VR_Labs_for_Higher_Education.Controllers
         }
 
         [HttpGet("InstructorHomePage")]
-        [Authorize(Roles = "Instructor")]
         public IActionResult InstructorHomePage()
         {
             return View();
         }
 
-        [HttpGet("InstructorProfilePage")]
-        [Authorize(Roles = "Instructor")]
-        public IActionResult InstructorProfilePage()
+        [HttpGet("InstructorGradePage/{id}")]
+        public async Task<IActionResult> InstructorGradePage(string id)
         {
+            ViewData["LabId"] = id;
+
+            // Retrieve the list of students who completed the lab
+            var studentsWithCompletedLabs = await _instructorService.GetStudentsCompletedLabAsync(id);
+
+            // Pass the list of students to the view
+            ViewData["StudentsWithCompletedLabs"] = studentsWithCompletedLabs;
+
             return View();
+        }
+
+        [HttpPost("UpdateGrade")]
+        public async Task<IActionResult> UpdateGrade()
+        {
+            // Retrieve the values posted from the form
+            var studentId = Request.Form["studentId"];
+            var labId = Request.Form["labId"];
+            var newGrade = Request.Form["grade"];
+
+            // Convert the newGrade to a double (you might want to add error handling)
+            if (double.TryParse(newGrade, out var gradeValue))
+            {
+                // Call your service method to update the student's grade
+                bool updateResult = await _instructorService.UpdateStudentGradeAsync(studentId, labId, gradeValue);
+
+                if (updateResult)
+                {
+                    // Redirect back to the grade page with a success message
+                    TempData["SuccessMessage"] = "Grade updated successfully.";
+                }
+                else
+                {
+                    // Redirect back with an error message
+                    TempData["ErrorMessage"] = "Failed to update the grade.";
+                }
+            }
+            else
+            {
+                // Handle the case where 'newGrade' couldn't be parsed as a double
+                TempData["ErrorMessage"] = "Invalid grade format.";
+            }
+
+            // Redirect back to the InstructorGradePage with labId
+            return RedirectToAction("InstructorGradePage", new { id = labId });
         }
 
     }

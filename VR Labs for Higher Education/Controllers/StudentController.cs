@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace VR_Labs_for_Higher_Education.Controllers
 {
+    [Authorize(Roles = "Student")]
     [ApiController]
     [Route("[controller]")]
     public class StudentController : Controller
@@ -20,31 +21,21 @@ namespace VR_Labs_for_Higher_Education.Controllers
         }
 
         [HttpGet("StudentHomePage")]
-        [Authorize(Roles = "Student")]
         public IActionResult StudentHomePage()
         {
-            // You can include logic here to fetch and display student-specific information
             return View();
         }
 
         [HttpGet("StudentLabPage/{id}")]
-        [Authorize(Roles = "Student")]
         public IActionResult StudentLabPage(string id)
         {
-            // Temporarily using ViewData to pass the lab ID to the view
-            // Ideally, you would fetch the lab details from the database using a lab service
             ViewData["LabId"] = id;
-
-            // You could also use ViewBag
-            // ViewBag.LabId = id;
-
             return View();
         }
 
         // Add to your StudentController
 
         [HttpGet("PlayLab")]
-        //[Authorize(Roles = "Student")]
         public IActionResult PlayLab()
         {
             // Path to the Unity WebGL index.html file
@@ -54,7 +45,6 @@ namespace VR_Labs_for_Higher_Education.Controllers
         }
 
         [HttpGet("StudentProfilePage")]
-        [Authorize(Roles = "Student")]
         public IActionResult StudentProfilePage()
         {
             return View();
