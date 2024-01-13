@@ -1,0 +1,21 @@
+﻿/* Styles for the header */
+header {
+    background-color: #333; /* Dark background color for the header */
+    color: #fff; /* Text color for the header */
+}
+
+/* Styles for the footer */
+footer {
+    background-color: #f5f5f5; /* Light background color for the footer */
+    color: #333; /* Text color for the footer */
+    padding: 10px 0; /* Add some padding to the footer */
+}
+
+/* Styles for the body/content area */
+body {
+    background-color: #fff; /* White background color for the body */
+    color: #333; /* Text color for the body */
+    padding: 20px; /* Add padding to the body content */
+    border-radius: 5px; /* Add rounded corners to the body content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a subtle shadow to the body content */
+}
