@@ -1,6 +1,27 @@
-﻿/* Styles for the header */
+﻿html, body {
+    height: 100%; /* Make sure the body takes full viewport height */
+    margin: 0; /* Reset default margin */
+}
+
+.wrapper {
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Stack elements vertically */
+    height: 100%; /* Full height */
+}
+
+header, footer {
+    flex-shrink: 0; /* Prevent header and footer from shrinking */
+}
+
+.container {
+    flex: 1; /* Content takes up the remaining space */
+    display: flex; /* Enable Flexbox for content */
+    flex-direction: column; /* Stack content elements vertically */
+}
+
+/* Styles for the header */
 header {
-    background-color: #333; /* Dark background color for the header */
+    /*background-color: #333; */ /* Dark background color for the header */
     color: #fff; /* Text color for the header */
 }
 
@@ -15,7 +36,5 @@ footer {
 body {
     background-color: #fff; /* White background color for the body */
     color: #333; /* Text color for the body */
-    padding: 20px; /* Add padding to the body content */
     border-radius: 5px; /* Add rounded corners to the body content */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a subtle shadow to the body content */
 }

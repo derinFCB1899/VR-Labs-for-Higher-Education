@@ -2,22 +2,26 @@
 .display-4 {
     font-size: 36px;
     font-weight: bold;
-    color: #333; /* Text color */
+    color: #555;
+    text-align: center;
+    padding-top: 20px;
 }
 
 /* Style for paragraphs */
 .lead {
     font-size: 18px;
     line-height: 1.6;
-    margin-top: 20px;
-    color: #666; /* Text color */
+    color: #777; /* Change text color to light gray */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: justify;
 }
 
 /* Style for the horizontal rule */
 .my-4 {
     border-top: 2px solid #ccc; /* Line color */
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 /* Style for the background */
@@ -27,12 +31,15 @@
 
 /* Additional styles for the container */
 .text-container {
-    padding: 20px; /* Add some padding around the content */
-    border-radius: 10px; /* Add rounded corners */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    /*padding: 20px;*/
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff; /* White background color */
+    color: #777; /* Text color */
 }
 
 body {
-    background-color: #c4c4c4; /* Black background color */
-    color: #fff; /* Text color */
+    color: #fff;
+    margin: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(219,219,219,1) 100%);
 }
