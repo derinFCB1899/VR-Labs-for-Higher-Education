@@ -15,32 +15,45 @@
             var labProgressArray = student["labProgress"].AsBsonArray;
             var currentGrade = double.NaN; // Default to NaN
 
-            // Check if there is any lab progress data and if it contains a "grade" field
-            if (labProgressArray.Any() && labProgressArray[0].AsBsonDocument.Contains("grade"))
+            if (labProgressArray.Any())
             {
-                var gradeValue = labProgressArray[0]["grade"];
-                if (!gradeValue.IsBsonNull)
+                var labProgress = labProgressArray.FirstOrDefault(lp => lp["labId"] == labId);
+                if (labProgress != null && labProgress["grade"] != BsonNull.Value)
                 {
-                    currentGrade = gradeValue.ToDouble(); // Convert to double if not null
+                    currentGrade = labProgress["grade"].ToDouble();
                 }
-            }
 
-            var studentId = student["_id"].ToString();
+                var checkpointsArray = labProgress["checkpoints"].AsBsonArray;
 
-            <div class="col-md-4">
-                <div class="student-tile">
-                    <h3>@student["name"]</h3>
-                    <p>Lab ID: @labId</p>
-                    <p>Current Grade: @(double.IsNaN(currentGrade) ? "Not Graded" : currentGrade.ToString())</p>
-                    <form method="post" action="/Instructor/UpdateGrade">
-                        <input type="hidden" name="studentId" value="@studentId" />
-                        <input type="hidden" name="labId" value="@labId" />
-                        <label for="grade">New Grade:</label>
-                        <input type="number" id="grade" name="grade" step="0.01" />
-                        <button type="submit">Update Grade</button>
-                    </form>
+                var studentId = student["_id"].ToString();
+
+                <div class="col-md-4">
+                    <div class="student-tile">
+                        <h3>@student["name"]</h3>
+                        <p>Lab ID: @labId</p>
+                        <p>Current Grade: @(double.IsNaN(currentGrade) ? "Not Graded" : currentGrade.ToString())</p>
+
+                        <!-- Display checkpoints -->
+                        <p>Checkpoints:</p>
+                        <ul>
+                            @foreach (var checkpoint in checkpointsArray)
+                            {
+                                var checkpointName = checkpoint["name"].AsString;
+                                var checkpointTimestamp = checkpoint["timestamp"].IsValidDateTime ? checkpoint["timestamp"].ToUniversalTime().ToString() : "Not Set";
+                                <li>@checkpointName : @checkpointTimestamp</li>
+                            }
+                        </ul>
+
+                        <form method="post" action="/Instructor/UpdateGrade">
+                            <input type="hidden" name="studentId" value="@studentId" />
+                            <input type="hidden" name="labId" value="@labId" />
+                            <label for="grade">New Grade:</label>
+                            <input type="number" id="grade" name="grade" step="0.01" />
+                            <button type="submit">Update Grade</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            }
         }
     </div>
 </div>
