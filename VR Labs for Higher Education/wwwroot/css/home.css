@@ -37,9 +37,3 @@
     background-color: #fff; /* White background color */
     color: #777; /* Text color */
 }
-
-body {
-    color: #fff;
-    margin: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(219,219,219,1) 100%);
-}

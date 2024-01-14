@@ -1,0 +1,11 @@
+﻿body {
+    display: flex; /* Use Flexbox for layout */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default margin */
+}
+
+iframe {
+    border: none; /* Optional: removes the border of the iframe */
+}

@@ -1,15 +1,41 @@
 ﻿@model VR_Labs_for_Higher_Education.Models.LoginDTO
 
-<form asp-action="Login" method="post">
-    <div class="form-group">
-        <label for="Email">Email</label>
-        <input type="email" class="form-control" id="Email" asp-for="Email" required>
-    </div>
-    <br>
-    <div class="form-group">
-        <label for="Password">Password</label>
-        <input type="password" class="form-control" id="Password" asp-for="Password" required>
-    </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Login";
+    ViewData["Login"] = "Login";
+}
+
+<style>
+    .form-container {
+        width: 400px;
+        margin: 0 auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+
+
+<div class="form-container">
+    <form asp-action="Login" method="post">
+        <h3 style="text-align:center;font-weight:bold;">Login</h3><br />
+        <div class="form-group">
+            <label for="Email" style="font-weight:bold;">Email</label>
+            <input type="email" class="form-control" id="Email" asp-for="Email" required>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="Password" style="font-weight:bold;">Password</label>
+            <input type="password" class="form-control" id="Password" asp-for="Password" required>
+        </div>
+        <br>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+       
+    </form>
+</div>
+
+

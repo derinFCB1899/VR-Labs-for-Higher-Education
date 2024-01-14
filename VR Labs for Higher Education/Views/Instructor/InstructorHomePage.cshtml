@@ -1,33 +1,36 @@
 ﻿@{
     Layout = "_Layout";
     ViewData["Title"] = "Instructor Home Page";
+    ViewData["InstructorHome"] = "InstructorHome";
 }
 
 <div class="text-center">
     @if (User.Identity.IsAuthenticated)
     {
         var fullName = User.FindFirst(c => c.Type == "name")?.Value;
-        <h2>Welcome @fullName!</h2> <!-- Display the user's name dynamically -->
+        <br />
+        <br />
+        <h2>Welcome @fullName!</h2>
     }
     <p>Select a lab to grade the students.</p>
+    <br /><br />
     <div class="row">
         <!-- List of labs -->
         <div class="col-md-4">
             <a href="@Url.Action("InstructorGradePage", "Instructor", new { id = "titrationLab" })" class="lab-tile">
-                <img src="~/images/acidbasetitration.jpg" alt="Acid-Base Titration" />
+                <img src="~/images/acidbasetitration.jpg" alt="Acid-Base Titration" style="border-radius:10%;"/>
+                <br /><br />
                 <h3>Acid-Base Titration</h3>
             </a>
         </div>
+        <br /> <br /> <br />
         <div class="col-md-4">
             <div class="lab-tile">
-                <img src="~/images/aspirin-synthesis.png" alt="Aspirin Synthesis" />
+                <img src="~/images/aspirin-synthesis.png" alt="Aspirin Synthesis" style="border-radius:10%;"/>
+                <br /><br />
                 <h3>Aspirin Synthesis</h3>
             </div>
         </div>
         <!-- Add more lab tiles here -->
     </div>
 </div>
-
-@section Scripts {
-    <script src="~/js/student-home.js"></script>
-}

@@ -1,19 +1,63 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Welcome to VR Labs!";
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/home.css">
+    <title>Index</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Changed from min-height to height */
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(219,219,219,1) 100%);
+        }
+
+        .main-content {
+            flex: 1; /* Allows main content to expand and fill the available space */
+            display: flex;
+            flex-direction: column; /* Changed to column for correct centering */
+        }
+
+        .container {
+            padding: 2rem;
+            max-width: 1600px; /* Maximum width of the container */
+            background-color: white;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            margin: auto; /* Centers the container within the main-content */
+        }
+
+        .display-4 {
+            font-weight: bold; /* Bolder title */
+            font-size: 2.5rem; /* Slightly smaller size */
+        }
+
+        .img-center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
     <title>@ViewData["Title"]</title>
 </head>
 <body>
-    <div class="d-flex align-items-center">
-        <div class="container-fluid bg-smoke-gray text-container">
-            <main role="main" style="padding:20px;">
-                <h1 class="display-4">Welcome to VR Labs for Higher Education!</h1>
-                <p class="lead">VR Labs for Higher Education, particularly those developed using Unity, offer immersive, virtual reality simulations of laboratory environments, providing an innovative educational tool for students. These simulated labs allow for safe, cost-effective, and accessible learning experiences, where students can conduct experiments and explore scientific concepts that might be too dangerous, expensive, or impractical in real-world settings. Leveraging Unity's robust graphics and interactive capabilities, these VR environments enhance student understanding by visualizing complex subjects, fostering hands-on learning, and enabling repeated experimentation without physical resource constraints. Such technology-driven educational solutions are instrumental in developing practical skills and adapting to modern learning methodologies, making science education more engaging and effective.</p>
-            </main>
+    <main class="main-content">
+        <div class="container text-center">
+            <h1 class="display-4">Welcome to VR Labs for Higher Education!</h1><br />
+            <p class="lead" style="text-align: justify;">
+                VR Labs for Higher Education, particularly those developed using Unity, offer immersive, virtual reality simulations of laboratory environments, providing an innovative educational tool for students.
+                <br /><br />These simulated labs allow for safe, cost-effective, and accessible learning experiences, where students can conduct experiments and explore scientific concepts that might be too dangerous, expensive, or impractical in real-world settings. Leveraging Unity's robust graphics and interactive capabilities, these VR environments enhance student understanding by visualizing complex subjects, fostering hands-on learning, and enabling repeated experimentation without physical resource constraints.
+                <br /><br />Such technology-driven educational solutions are instrumental in developing practical skills and adapting to modern learning methodologies, making science education more engaging and effective.
+                <br /><br /><img src="~/images/isiklogo.png" alt="Achievement" height="60px" width="60px" class="img-center">
+            </p>
         </div>
-    </div>
+    </main>
 </body>
 </html>

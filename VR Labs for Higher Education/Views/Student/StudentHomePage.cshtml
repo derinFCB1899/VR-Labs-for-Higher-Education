@@ -1,13 +1,16 @@
 ﻿@{
     Layout = "_Layout"; // Set the layout page
     ViewData["Title"] = "Student Home Page";
+    ViewData["StudentHome"] = "StudentHome";
 }
 
 <div class="text-center">
     @if (User.Identity.IsAuthenticated)
     {
         var fullName = User.FindFirst(c => c.Type == "name")?.Value;
-        <br /><h2>Welcome @fullName!</h2> <!-- Display the user's name dynamically -->
+        <br />
+        <br />
+        <h2>Welcome @fullName!</h2> <!-- Display the user's name dynamically -->
     }
     <p>Select a lab to begin your virtual learning experience.</p>
     <br /><br />

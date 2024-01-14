@@ -26,13 +26,13 @@
                         if (User.IsInRole("Student"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" style="color: #fbb400;" asp-controller="Student" asp-action="StudentHomePage">Home</a>
+                                <a class="nav-link" asp-controller="Student" asp-action="StudentHomePage" style="@(ViewData["StudentHome"] as string == "StudentHome" ? "color: #fbb400;" : "")">Home</a>
                             </li>
                         }
                         else if (User.IsInRole("Instructor"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" style="color: #fbb400;" asp-controller="Instructor" asp-action="InstructorHomePage">Home</a>
+                                <a class="nav-link" asp-controller="Instructor" asp-action="InstructorHomePage" style="@(ViewData["InstructorHome"] as string == "InstructorHome" ? "color: #fbb400;" : "")">Home</a>
                             </li>
                         }
                     }
@@ -44,24 +44,24 @@
                         if (User.IsInRole("Student"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" style="color: #fbb400;" asp-controller="Student" asp-action="StudentProfilePage">Profile</a>
+                                <a class="nav-link" asp-controller="Student" asp-action="StudentProfilePage" style="@(ViewData["StudentProfile"] as string == "StudentProfile" ? "color: #fbb400;" : "")">Profile</a>
                             </li>
                         }
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fbb400;" asp-controller="Account" asp-action="Logout">Logout</a>
+                            <a class="nav-link logout" asp-controller="Account" asp-action="Logout">Logout</a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link" style="color: #fbb400;" asp-controller="Account" asp-action="Login">Login</a>
+                            <a class="nav-link" asp-controller="Account" asp-action="Login" style="@(ViewData["Login"] as string == "Login" ? "color: #fbb400;" : "")">Login</a>
                         </li>
                     }
                 </ul>
             </div>
         </nav>
         <div class="container">
-            <main role="main" class="pb-3"> @RenderBody() </main>
+            <main role="main"> @RenderBody() </main>
         </div>
         <footer class="border-top footer" style="background-color:#fbb400;">
             <div style="color:white;font-size:14px;font-family: system-ui; display: flex; justify-content: space-between; align-items: center;">

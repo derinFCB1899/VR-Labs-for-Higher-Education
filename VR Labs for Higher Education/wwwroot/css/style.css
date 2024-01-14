@@ -1,0 +1,117 @@
+﻿/* General Styles */
+html, body {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+    margin: 0; /* Reset default margin */
+    height: 100%; /* Make sure the body takes full viewport height */
+    background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(219,219,219,1) 100%);
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+/* Wrapper Styles */
+.wrapper {
+    display: flex; /* Enable Flexbox */
+    flex-direction: column; /* Stack elements vertically */
+    height: 100%; /* Full height */
+}
+
+/* Header and Footer */
+header, footer {
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+footer {
+    background-color: #f5f5f5; /* Light background color */
+    color: #333; /* Text color */
+    padding: 10px 0; /* Padding */
+}
+
+/* Main Content */
+.main-content {
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    margin-top: 80px;
+    margin-bottom: 80px;
+    height: calc(100vh - 98px); /* Adjust the height */
+}
+
+/* Text and Display Styles */
+.display-4, .profile-usertitle-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #555;
+    text-align: center;
+}
+
+.lead, .profile-usertitle {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #777; /* Light gray text color */
+    text-align: justify;
+}
+
+/* Container and Sidebar Styles */
+.container, .profile-sidebar {
+    padding: 20px;
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* White background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+}
+
+/* List Styles */
+.grades-list, .awards, .profile-content {
+    padding: 0;
+    list-style-type: none;
+}
+
+    .grades-list li, .awards img {
+        margin-bottom: 10px;
+    }
+
+/* Awards Styling */
+.awards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: start;
+}
+
+    .awards img {
+        width: 50px;
+        height: auto;
+    }
+
+/* Responsive Layout Adjustments */
+@media (max-width: 768px) {
+    .awards img {
+        width: 30px; /* Smaller medals on mobile */
+    }
+
+    .profile-sidebar, .profile-content {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+/* Additional Styles */
+.bg-smoke-gray {
+    background-color: #f5f5f5; /* Smoke gray background */
+}
+
+.my-4 {
+    border-top: 2px solid #ccc; /* Line color */
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Iframe Styles */
+iframe {
+    border: none; /* Optional: removes the border of the iframe */
+}

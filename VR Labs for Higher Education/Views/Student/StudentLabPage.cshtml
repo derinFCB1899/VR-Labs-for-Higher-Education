@@ -1,13 +1,15 @@
 ﻿@{
     ViewData["Title"] = "Lab Details";
-    var labId = ViewData["LabId"] as string;
+    var labId = ViewBag.LabId as string;
 }
 
 <div class="lab-container">
-    <h1>Lab Details for @labId</h1>
+    <br /><br />
+    <h2>Lab Details for @labId</h2>
+    <br />
     <!-- Lab details here -->
     <div class="lab-actions">
-        <a href="@Url.Action("PlayLab")" class="btn btn-success">Play</a>
+        <a href="@Url.Action("PlayLab", new { id = labId })" class="btn btn-success mr-2">Play</a>
         <button class="btn btn-warning" disabled>Tutorial</button>
     </div>
 </div>

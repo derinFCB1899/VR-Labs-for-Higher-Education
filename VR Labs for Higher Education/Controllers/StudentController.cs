@@ -26,6 +26,12 @@ namespace VR_Labs_for_Higher_Education.Controllers
             return View();
         }
 
+        [HttpGet("StudentProfilePage")]
+        public IActionResult StudentProfilePage()
+        {
+            return View();
+        }
+
         [HttpGet("StudentLabPage/{id}")]
         public IActionResult StudentLabPage(string id)
         {
@@ -33,21 +39,14 @@ namespace VR_Labs_for_Higher_Education.Controllers
             return View();
         }
 
-        // Add to your StudentController
-
-        [HttpGet("PlayLab")]
-        public IActionResult PlayLab()
+        [HttpGet("PlayLab/{id}")]
+        public IActionResult PlayLab(string id)
         {
             // Path to the Unity WebGL index.html file
             var pathToUnityGame = "~/titrationLab.html";
             ViewBag.PathToUnityGame = pathToUnityGame;
+            ViewBag.LabId = id; // Pass the 'id' parameter to the view
             return View("PlayLab");
-        }
-
-        [HttpGet("StudentProfilePage")]
-        public IActionResult StudentProfilePage()
-        {
-            return View();
         }
 
     }

@@ -1,37 +1,32 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-}
-
 
 /* Student profile page styles */
-
 .profile-sidebar {
     padding: 20px;
-    border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd; /* Default border for larger screens */
+    text-align: center; /* Center-align contents */
+    width: 300px;
 }
 
 .profile-userpic img {
     width: 100%;
+    max-width: 200px; /* Limiting the maximum width */
     height: auto;
     border-radius: 50%;
+    margin: 0 auto; /* Center the image */
 }
 
 .profile-usertitle {
-    text-align: center;
     margin-top: 20px;
 }
 
@@ -66,15 +61,24 @@ body {
         height: auto;
     }
 
-/* Responsive layout adjustments */
-@media (max-width: 768px) {
-    .profile-sidebar,
+/* Responsive layout adjustments for mobile screens */
+@media (max-width: 900px) {
+    .profile-sidebar {
+        width: 100%; /* Adjust the width to 100% for better centering */
+        margin-bottom: 20px;
+        border-right: none; /* Remove the border on mobile */
+    }
+
     .profile-content {
         width: 100%;
-        margin-bottom: 20px;
     }
 
     .awards img {
         width: 30px; /* Smaller medals on mobile */
+    }
+
+    .profile-avatar {
+        width: 80px; /* Smaller size for mobile */
+        height: 80px; /* Maintain aspect ratio */
     }
 }

@@ -38,3 +38,16 @@ body {
     color: #333; /* Text color for the body */
     border-radius: 5px; /* Add rounded corners to the body content */
 }
+
+.nav-link {
+    color: #949BC8;
+}
+
+nav .navbar-nav .nav-item .nav-link:hover {
+    transition: 0.2s;
+}
+
+nav .navbar-nav .nav-item .nav-link.logout:hover {
+    color: #dc3545;
+    transition: 0.2s;
+}
