@@ -3,6 +3,7 @@ using VR_Labs_for_Higher_Education.Models;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using VR_Labs_for_Higher_Education.Services;
 
 namespace VR_Labs_for_Higher_Education.Controllers
 {
@@ -27,9 +28,32 @@ namespace VR_Labs_for_Higher_Education.Controllers
         }
 
         [HttpGet("StudentProfilePage")]
-        public IActionResult StudentProfilePage()
+        public async Task<IActionResult> StudentProfilePage()
         {
-            return View();
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+            if (!string.IsNullOrEmpty(userEmail))
+            {
+                var student = await _studentService.FindByEmailAsync(userEmail);
+
+                if (student != null)
+                {
+                    // Retrieve the student's LabProgress data from your data source (e.g., database)
+                    var labProgresses = student.LabProgress;
+
+                    // Create a view model to pass LabProgress data to the view
+                    var viewModel = new StudentProfile
+                    {
+                        Student = student,
+                        LabProgresses = labProgresses // Pass the LabProgress data to the view model
+                    };
+
+                    return View(viewModel);
+                }
+            }
+
+            // Handle the case where the student or email is not found
+            return NotFound();
         }
 
         [HttpGet("StudentLabPage/{id}")]
@@ -49,5 +73,36 @@ namespace VR_Labs_for_Higher_Education.Controllers
             return View("PlayLab");
         }
 
+        [HttpPost("CompleteLab/{labId}")]
+        public async Task<IActionResult> CompleteLab(string labId)
+        {
+            var userEmail = User.FindFirstValue(ClaimTypes.Email); // Using email to find the user
+            _logger.LogInformation($"User Email: {userEmail}"); // Logging the user email
+
+            if (!string.IsNullOrEmpty(userEmail))
+            {
+                var student = await _studentService.FindByEmailAsync(userEmail); // Finding the student by email
+
+                if (student != null)
+                {
+                    var labProgress = student.LabProgress.FirstOrDefault(lp => lp.LabId == labId);
+                    if (labProgress != null)
+                    {
+                        _logger.LogInformation($"Lab Progress Found for Lab ID: {labId}"); // Logging the lab ID
+                        labProgress.IsComplete = true;
+                        labProgress.CompletionTimestamp = DateTime.UtcNow;
+                        await _studentService.UpdateStudentAsync(student);
+                        _logger.LogInformation("Lab Progress Updated"); // Logging the update
+                        return Ok();
+                    }
+                }
+            }
+
+            _logger.LogInformation("Lab Progress Not Found or User Email Not Found"); // Logging when lab progress or email is not found
+            return NotFound();
+        }
+
+
     }
+
 }

@@ -41,15 +41,12 @@
                         <br />
                         <p style="font-family: 'Open Sans', sans-serif;"><strong>Lab ID:</strong> @labId</p>
                         <p style="font-family: 'Open Sans', sans-serif;"><strong>Grade:</strong> @(double.IsNaN(currentGrade) ? "Not Graded" : currentGrade.ToString())</p>
-
                         <!-- Display date -->
                         @if (sortedCheckpoints.Any())
                         {
                             var initialDate = sortedCheckpoints.First()["timestamp"].ToUniversalTime();
                             <p style="font-family: 'Open Sans', sans-serif;"><strong>Date:</strong> @initialDate.ToString("MM/dd/yyyy")</p>
                         }
-
-                        <!-- Display checkpoints -->
                         <!-- Display checkpoints -->
                         <p style="font-family: 'Open Sans', sans-serif;margin-bottom:2px;">
                             <strong>Checkpoints:</strong>
@@ -59,7 +56,11 @@
                             {
                                 var checkpointTimestamp = checkpoint["timestamp"].IsValidDateTime ? checkpoint["timestamp"].ToUniversalTime() : (DateTime?)null;
                                 var timeDifference = checkpointTimestamp.HasValue && previousCheckpointTime.HasValue ? checkpointTimestamp.Value.Subtract(previousCheckpointTime.Value) : TimeSpan.Zero;
-                                var formattedTime = checkpointTimestamp?.ToString("HH:mm:ss") ?? "Not Set";
+
+                                // Add 3 hours to the checkpoint timestamp
+                                var checkpointTimestampPlus3Hours = checkpointTimestamp?.AddHours(3);
+
+                                var formattedTime = checkpointTimestampPlus3Hours?.ToString("HH:mm:ss") ?? "Not Set";
                                 var checkpointName = checkpoint["name"].AsString;
                                 previousCheckpointTime = checkpointTimestamp;
 

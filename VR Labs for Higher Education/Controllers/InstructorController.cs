@@ -23,30 +23,21 @@ namespace VR_Labs_for_Higher_Education.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetInstructors()
-        {
-            var instructors = await _instructorService.GetInstructorsAsync();
-            return Ok(instructors);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetInstructor(string id)
-        {
-            var instructor = await _instructorService.GetInstructorAsync(id);
-            if (instructor == null)
-            {
-                return NotFound();
-            }
-            return Ok(instructor);
-        }
-
+        // Display instructor home page
         [HttpGet("InstructorHomePage")]
         public IActionResult InstructorHomePage()
         {
             return View();
         }
 
+        // Default redirect will be to the homepage
+        [HttpGet]
+        public IActionResult DefaultRedirect()
+        {
+            return RedirectToAction("InstructorHomePage", "Instructor");
+        }
+
+        // Display grading page for the instructor to grade students for a lab with its ID
         [HttpGet("InstructorGradePage/{id}")]
         public async Task<IActionResult> InstructorGradePage(string id)
         {
@@ -61,6 +52,7 @@ namespace VR_Labs_for_Higher_Education.Controllers
             return View();
         }
 
+        // Update a student's grade for a lab, given the studentId, labId and student grade
         [HttpPost("UpdateGrade")]
         public async Task<IActionResult> UpdateGrade()
         {

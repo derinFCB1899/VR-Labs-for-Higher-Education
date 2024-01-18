@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-public class AccountService // Assuming this is part of your service layer
+namespace VR_Labs_for_Higher_Education.Services
 {
-    private readonly PasswordHasher<object> _passwordHasher = new PasswordHasher<object>();
-
-    public string HashPassword(string password)
+    public class AccountService
     {
-        // Use an empty object as we don't have a User class
-        return _passwordHasher.HashPassword(null, password);
-    }
+        private readonly PasswordHasher<object> _passwordHasher = new PasswordHasher<object>();
 
-    // Other methods...
+        public string HashPassword(string password)
+        {
+            // Function used for passwordHashing
+            return _passwordHasher.HashPassword(null, password);
+        }
+
+    }
 }

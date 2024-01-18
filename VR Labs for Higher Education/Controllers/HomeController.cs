@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using VR_Labs_for_Higher_Education.Models;
+using VR_Labs_for_Higher_Education.Services;
 
 namespace VR_Labs_for_Higher_Education.Controllers
 {
@@ -17,7 +18,6 @@ namespace VR_Labs_for_Higher_Education.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
-            // Check if the user is authenticated
             if (User.Identity.IsAuthenticated)
             {
                 // Redirect to StudentHomePage if the user has the Student role
@@ -25,20 +25,14 @@ namespace VR_Labs_for_Higher_Education.Controllers
                 {
                     return RedirectToAction("StudentHomePage", "Student");
                 }
-                // Redirect to InstructorHomePage if the user has the Instructor role
+                // Redirect to InstructorHomePage if the user has the Student role
                 else if (User.IsInRole("Instructor"))
                 {
                     return RedirectToAction("InstructorHomePage", "Instructor");
                 }
-                // Optionally, handle other roles or default case
             }
 
-            // For non-authenticated users, show the default index page
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
+            // Default for non-authenticated users is this home page
             return View();
         }
 

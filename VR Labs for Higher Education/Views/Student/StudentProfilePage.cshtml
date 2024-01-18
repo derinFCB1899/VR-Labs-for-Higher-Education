@@ -1,4 +1,7 @@
-﻿@{
+﻿@model VR_Labs_for_Higher_Education.Models.StudentProfile
+
+<!-- ... (remaining HTML code) ... -->
+@{
     Layout = "_Layout";
     ViewData["Title"] = "Student Profile Page";
     ViewData["StudentProfile"] = "StudentProfile";
@@ -16,7 +19,6 @@
                     <!-- Enhanced profile picture -->
                     <img src="~/images/user.png" class="img-responsive profile-avatar" alt="Profile Picture" style="border: 3px solid #ddd; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
                 </div>
-
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name">
                         <br />
@@ -34,15 +36,28 @@
         <div class="col-md-8">
             <div class="profile-content">
                 <!-- Grades section with improved heading style -->
-                <h2 style="font-family: 'Open Sans', sans-serif; color: #0056b3;">Grades</h2>
+                <h2 style="font-family: 'Open Sans', sans-serif; color: #0056b3;">Lab Progress</h2>
                 <br />
-                <ul class="grades-list" style="list-style: none; padding: 0;">
-                    <!-- Dynamic model data for grades -->
-                    <li style="background-color: #f8f9fa; margin-bottom: 10px; padding: 10px; border-radius: 5px;">Lab 1: -</li>
-                    <li style="background-color: #f8f9fa; margin-bottom: 10px; padding: 10px; border-radius: 5px;">Lab 2: -</li>
-                    <li style="background-color: #f8f9fa; margin-bottom: 10px; padding: 10px; border-radius: 5px;">Lab 3: -</li>
+                <ul class="lab-progress-list" style="list-style: none; padding: 0;">
+                    @foreach (var labProgress in Model.LabProgresses)
+                    {
+                        <li style="background-color: #f8f9fa; margin-bottom: 10px; padding: 10px; border-radius: 5px;">
+                            Lab ID: @labProgress.LabId<br />
+                            Is Complete: @labProgress.IsComplete<br />
+                            Grade: @(labProgress.Grade.HasValue ? labProgress.Grade.Value.ToString("F2") : "N/A")<br />
+                            Completion Timestamp: @(labProgress.CompletionTimestamp.HasValue ? labProgress.CompletionTimestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")<br />
+                            Checkpoints:
+                            <ul>
+                                @foreach (var checkpoint in labProgress.Checkpoints)
+                                {
+                                    <li>@checkpoint.Name - @(checkpoint.Timestamp.HasValue ? checkpoint.Timestamp.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</li>
+                                }
+                            </ul>
+                        </li>
+                    }
                 </ul>
-                <br /><br />
+                <br />
+                <br />
                 <!-- Awards section with improved heading style -->
                 <h2 style="font-family: 'Open Sans', sans-serif; color: #0056b3;">Awards</h2>
                 <br />

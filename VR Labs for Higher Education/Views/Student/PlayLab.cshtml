@@ -29,8 +29,15 @@
             height: 750px;
             border: none;
         }
-    </style>
 
+        #completeLabButton {
+            position: absolute;
+            top: 50px; /* Adjust the top distance as needed */
+            right: 50px; /* Adjust the right distance as needed */
+        }
+    </style>
+    </style>
+    <script src="/lib/jquery/dist/jquery.js"></script>
 </head>
 <body>
     <br />
@@ -38,5 +45,28 @@
         <iframe src="~/titrationLab.html"></iframe>
     </div>
     <br />
+    <button id="completeLabButton" type="button">Complete Lab</button>
+    <br />
+    <!-- Lab submission script -->
+    <script>
+        $(document).ready(function () {
+            $('#completeLabButton').click(function () {
+                $.ajax({
+                    url: '/Student/CompleteLab/' + "@(labId)",
+                    type: 'POST',
+                    success: function (data) {
+                        // If the lab is completed successfully, redirect to the PlayLab page
+                        alert('Lab completed successfully!');
+                        window.location.href = '/Student/StudentLabPage/' + "@(labId)";
+                    },
+                    error: function (xhr, status, error) {
+                        // Improved error handling for better diagnosis
+                        var errorMessage = xhr.status + ': ' + xhr.statusText;
+                        alert('An error occurred while completing the lab: ' + errorMessage);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

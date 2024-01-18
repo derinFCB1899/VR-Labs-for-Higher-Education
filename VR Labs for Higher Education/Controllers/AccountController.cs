@@ -27,21 +27,14 @@ public class AccountController : Controller
         _logger = logger;
     }
 
-    /*public IActionResult AzureLogin(string returnUrl = "/")
-    {
-        return Challenge(new AuthenticationProperties { RedirectUri = returnUrl }, OpenIdConnectDefaults.AuthenticationScheme);
-    }*/
-
-    // In your AccountController or a separate AuthService:
-
-    // GET: account/login
+    // Login Form Display
     [HttpGet]
     public IActionResult Login()
     {
         return View();
     }
 
-    // POST: account/login
+    // Login action (Information check, verification, redirect etc.)
     [HttpPost]
     public async Task<IActionResult> Login(LoginDTO model)
     {
@@ -86,7 +79,10 @@ public class AccountController : Controller
         if (string.IsNullOrEmpty(role))
         {
             _logger.LogWarning("Login failed for {Email}", model.Email);
-            ModelState.AddModelError("", "Invalid login attempt.");
+
+            // Display an error message to the user
+            ViewBag.ErrorMessage = "Wrong username or password, try again.";
+
             return View(model);
         }
 
@@ -117,7 +113,7 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    // GET: account/logout
+    // Logout action and redirect
     [HttpGet]
     public async Task<IActionResult> Logout()
     {

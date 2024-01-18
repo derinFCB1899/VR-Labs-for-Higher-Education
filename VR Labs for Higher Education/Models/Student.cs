@@ -52,7 +52,7 @@ namespace VR_Labs_for_Higher_Education.Models
 
         public LabProgress()
         {
-            IsComplete = false; // Initialize as not complete by default
+            IsComplete = false;
             Checkpoints = new List<LabCheckpoint>();
         }
     }
@@ -63,15 +63,15 @@ namespace VR_Labs_for_Higher_Education.Models
         public string Name { get; set; }
 
         [BsonElement("timestamp")]
-        public DateTime? Timestamp { get; set; } // Nullable timestamp
+        public DateTime? Timestamp { get; set; }
 
         [BsonElement("index")]
-        public int? Index { get; set; } // Nullable index to identify the order of checkpoints
+        public int? Index { get; set; }
 
         public LabCheckpoint()
         {
-            Timestamp = null; // Initialize as null by default
-            Index = null; // Initialize as null by default
+            Timestamp = null;
+            Index = null;
         }
     }
 
