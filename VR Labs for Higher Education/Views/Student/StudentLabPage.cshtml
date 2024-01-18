@@ -1,15 +1,43 @@
 ﻿@{
-    ViewData["Title"] = "Lab Details";
-    var labId = ViewBag.LabId as string;
+    ViewData["Title"] = "Lab Details"; 
+    var labId = ViewBag.LabId as string; 
+    var labComplete = ViewBag.LabComplete as bool?; 
+    var tutorialComplete = ViewBag.TutorialComplete as bool?;
 }
 
-<div class="lab-container">
-    <br /><br />
-    <h2>Lab Details for @labId</h2>
-    <br />
-    <!-- Lab details here -->
-    <div class="lab-actions">
-        <a href="@Url.Action("PlayLab", new { id = labId })" class="btn btn-success mr-2">Play</a>
-        <a href="@Url.Action("LabTutorial", new { id = labId })" class="btn btn-success mr-2">Play</a>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <title>Unity WebGL Player</title>
+    <link rel="stylesheet" href="~/css/lab.css">
+</head>
+<body>
+    <div class="lab-container">
+        <br />
+        <br />
+        <h2>Lab Details for @labId</h2>
+        <br />
+        
+        <div class="lab-actions">
+
+            @if (tutorialComplete == true)
+            {
+                <span class="btn btn-success disabled mr-2">Tutorial</span>
+            }
+            else
+            {
+                <a href="@Url.Action("LabTutorial", "Student", new { id=labId })" class="btn btn-warning mr-2">Tutorial</a>
+            }           
+            @if (labComplete == true)
+            {
+                <span class="btn btn-success disabled mr-2">Play Lab</span>
+            }
+            else
+            {
+                <a href="@Url.Action("PlayLab",  "Student", new { id=labId })" class="btn btn-success mr-2">Play Lab</a>
+            } </div>
     </div>
-</div>
+</body>
+</html>

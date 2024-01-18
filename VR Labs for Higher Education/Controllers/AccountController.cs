@@ -31,8 +31,23 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Login()
     {
+        if (User.Identity.IsAuthenticated)
+        {
+            // Student redirect
+            if (User.IsInRole("Student"))
+            {
+                return RedirectToAction("StudentHomePage", "Student");
+            }
+            //Instructor redirect
+            else if (User.IsInRole("Instructor"))
+            {
+                return RedirectToAction("InstructorHomePage", "Instructor");
+            }
+        }
+        // If the user is not authenticated, show the login page
         return View();
     }
+
 
     // Login action (Information check, verification, redirect etc.)
     [HttpPost]
