@@ -21,18 +21,18 @@ namespace VR_Labs_for_Higher_Education.Controllers
             _logger = logger;
         }
 
-        // Redirect to student home page
-        [HttpGet("StudentHomePage")]
-        public IActionResult StudentHomePage()
-        {
-            return View();
-        }
-
         // Default redirect will be to the homepage
         [HttpGet]
         public IActionResult DefaultRedirect()
         {
             return RedirectToAction("StudentHomePage", "Student");
+        }
+
+        // Redirect to student home page
+        [HttpGet("StudentHomePage")]
+        public IActionResult StudentHomePage()
+        {
+            return View();
         }
 
         // Redirect to student profile page
@@ -109,6 +109,10 @@ namespace VR_Labs_for_Higher_Education.Controllers
 
                     if (labProgress != null && !labProgress.TutorialComplete) // Check if the tutorial is not marked as complete
                     {
+                        // Page was accessed, the student has successfully accessed the tutorial.
+                        labProgress.TutorialComplete = true;
+                        await _studentService.UpdateStudentAsync(student);
+                        _logger.LogInformation("Updating the tutorial status.");
                         ViewData["LabId"] = id;
                         return View();
                     }
@@ -135,12 +139,12 @@ namespace VR_Labs_for_Higher_Education.Controllers
                     // Retrieve the lab progress for the specific lab (assuming LabProgress has IsComplete field)
                     var labProgress = student.LabProgress.FirstOrDefault(lp => lp.LabId == id);
 
-                    if (labProgress != null && !labProgress.IsComplete) // Check if the lab is not marked as complete
+                    if (labProgress != null && labProgress.TutorialComplete && !labProgress.IsComplete)
                     {
-                        // Path to the Unity WebGL index.html file
+                        // Access the lab with the Unity file.
                         var pathToUnityGame = "~/titrationLab.html";
                         ViewBag.PathToUnityGame = pathToUnityGame;
-                        ViewBag.LabId = id; // Pass the 'id' parameter to the view
+                        ViewBag.LabId = id;
                         return View("PlayLab");
                     }
                 }

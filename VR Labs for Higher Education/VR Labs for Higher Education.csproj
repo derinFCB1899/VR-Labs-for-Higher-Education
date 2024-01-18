@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Build\" />
+    <Folder Include="wwwroot\tutorialvideo\" />
   </ItemGroup>
 
 </Project>

@@ -31,8 +31,6 @@ namespace VR_Labs_for_Higher_Education.Controllers
                     return RedirectToAction("InstructorHomePage", "Instructor");
                 }
             }
-
-            // Default for non-authenticated users is this home page
             return View();
         }
 
