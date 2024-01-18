@@ -38,14 +38,20 @@ namespace VR_Labs_for_Higher_Education.Models
         [BsonElement("labId")]
         public string LabId { get; set; }
 
+        [BsonElement("tutorialComplete")]
+        public bool TutorialComplete { get; set; }
+
         [BsonElement("isComplete")]
         public bool IsComplete { get; set; }
 
         [BsonElement("grade")]
         public double? Grade { get; set; } // Nullable grade
 
-        [BsonElement("completionTimestamp")]
-        public DateTime? CompletionTimestamp { get; set; } // Nullable completion timestamp
+        [BsonElement("startDate")]
+        public DateTime? StartDate { get; set; } // Nullable completion timestamp
+
+        [BsonElement("endDate")]
+        public DateTime? EndDate { get; set; } // Nullable completion timestamp
 
         [BsonElement("checkpoints")]
         public List<LabCheckpoint> Checkpoints { get; set; }

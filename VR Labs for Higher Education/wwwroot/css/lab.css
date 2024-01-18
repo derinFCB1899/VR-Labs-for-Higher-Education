@@ -1,11 +1,28 @@
-﻿body {
-    display: flex; /* Use Flexbox for layout */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    height: 100vh; /* Full viewport height */
-    margin: 0; /* Remove default margin */
+﻿html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
 }
 
 iframe {
-    border: none; /* Optional: removes the border of the iframe */
+    width: 100%;
+    height: 750px;
+    border: none;
+    align-content: center;
+}
+
+#completeLabButton {
+    position: absolute;
+    margin: 20px;
+    width: 120px;
+    height: 40px;
+    align-self: center;
 }

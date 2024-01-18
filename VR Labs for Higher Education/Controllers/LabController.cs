@@ -21,6 +21,7 @@ public class LabController : ControllerBase
         _logger = logger;
     }
 
+    // The method that communicates with the Unity lab to fetch
     [HttpPost("ToggleAction")]
     public async Task<IActionResult> ToggleAction([FromBody] ToggleActionModel toggle)
     {

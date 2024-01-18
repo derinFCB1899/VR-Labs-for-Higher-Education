@@ -21,12 +21,21 @@ namespace VR_Labs_for_Higher_Education.Controllers
             _logger = logger;
         }
 
+        // Redirect to student home page
         [HttpGet("StudentHomePage")]
         public IActionResult StudentHomePage()
         {
             return View();
         }
 
+        // Default redirect will be to the homepage
+        [HttpGet]
+        public IActionResult DefaultRedirect()
+        {
+            return RedirectToAction("StudentHomePage", "Student");
+        }
+
+        // Redirect to student profile page
         [HttpGet("StudentProfilePage")]
         public async Task<IActionResult> StudentProfilePage()
         {
@@ -56,6 +65,7 @@ namespace VR_Labs_for_Higher_Education.Controllers
             return NotFound();
         }
 
+        // Redirect to lab preview page
         [HttpGet("StudentLabPage/{id}")]
         public IActionResult StudentLabPage(string id)
         {
@@ -63,6 +73,15 @@ namespace VR_Labs_for_Higher_Education.Controllers
             return View();
         }
 
+        // Redirect to lab preview page
+        [HttpGet("LabTutorial/{id}")]
+        public IActionResult LabTutorial(string id)
+        {
+            ViewData["LabId"] = id;
+            return View();
+        }
+
+        // Redirect to lab simulation page
         [HttpGet("PlayLab/{id}")]
         public IActionResult PlayLab(string id)
         {
@@ -73,6 +92,7 @@ namespace VR_Labs_for_Higher_Education.Controllers
             return View("PlayLab");
         }
 
+        // Lab submission logic
         [HttpPost("CompleteLab/{labId}")]
         public async Task<IActionResult> CompleteLab(string labId)
         {
