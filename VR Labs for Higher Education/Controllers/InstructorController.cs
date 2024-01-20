@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VR_Labs_for_Higher_Education.Models;
-using System.Threading.Tasks;
 using VR_Labs_for_Higher_Education.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace VR_Labs_for_Higher_Education.Controllers
 {
@@ -61,8 +56,8 @@ namespace VR_Labs_for_Higher_Education.Controllers
             var labId = Request.Form["labId"];
             var newGrade = Request.Form["grade"];
 
-            // Convert the newGrade to a double (you might want to add error handling)
-            if (double.TryParse(newGrade, out var gradeValue))
+            // Convert the newGrade to an integer and validate the range
+            if (int.TryParse(newGrade, out var gradeValue) && gradeValue >= 0 && gradeValue <= 100)
             {
                 // Call your service method to update the student's grade
                 bool updateResult = await _instructorService.UpdateStudentGradeAsync(studentId, labId, gradeValue);
@@ -80,8 +75,8 @@ namespace VR_Labs_for_Higher_Education.Controllers
             }
             else
             {
-                // Handle the case where 'newGrade' couldn't be parsed as a double
-                TempData["ErrorMessage"] = "Invalid grade format.";
+                // Handle the case where 'newGrade' couldn't be parsed as an integer or it's out of range
+                TempData["ErrorMessage"] = "Invalid grade format or out of range (0-100).";
             }
 
             // Redirect back to the InstructorGradePage with labId
@@ -89,4 +84,5 @@ namespace VR_Labs_for_Higher_Education.Controllers
         }
 
     }
+
 }

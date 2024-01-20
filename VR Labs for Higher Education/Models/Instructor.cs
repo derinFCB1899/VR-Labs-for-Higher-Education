@@ -20,7 +20,7 @@ namespace VR_Labs_for_Higher_Education.Models
 
         public Instructor()
         {
-            
+            // Instructor creation
         }
 
     }

@@ -18,24 +18,28 @@
         <br />
         <br />
         <h2>Lab Details for @labId</h2>
-        <br />      
-        <div class="lab-actions">
+        <br />
+        <p style="text-align:justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <br />
+        <div class="lab-actions" style="text-align: center;">
             @if (tutorialComplete == true)
             {
-                <span class="btn btn-warning disabled mr-2">Tutorial</span>
+                <span class="btn btn-warning disabled mr-2">Watched</span>
+                @if (labComplete == true)
+                {
+                    <span class="btn btn-success disabled mr-2">Completed</span>
+                }
+                else
+                {
+                    <a href="@Url.Action("PlayLab",  "Student", new { id=labId })" class="btn btn-success mr-2">Play Lab</a>
+                }
             }
             else
             {
                 <a href="@Url.Action("LabTutorial", "Student", new { id=labId })" class="btn btn-warning mr-2">Tutorial</a>
-            }           
-            @if (labComplete == true)
-            {
                 <span class="btn btn-success disabled mr-2">Play Lab</span>
-            }
-            else
-            {
-                <a href="@Url.Action("PlayLab",  "Student", new { id=labId })" class="btn btn-success mr-2">Play Lab</a>
-            } </div>
+            }           
+        </div>
     </div>
 </body>
 </html>

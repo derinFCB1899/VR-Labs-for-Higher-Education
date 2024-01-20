@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VR_Labs_for_Higher_Education.Models;
-using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using VR_Labs_for_Higher_Education.Services;
@@ -54,13 +53,12 @@ namespace VR_Labs_for_Higher_Education.Controllers
                     var viewModel = new StudentProfile
                     {
                         Student = student,
-                        LabProgresses = labProgresses // Pass the LabProgress data to the view model
+                        LabProgresses = labProgresses
                     };
 
                     return View(viewModel);
                 }
             }
-            // Handle the case where the student or email is not found
             return NotFound();
         }
 
@@ -68,16 +66,16 @@ namespace VR_Labs_for_Higher_Education.Controllers
         [HttpGet("StudentLabPage/{id}")]
         public async Task<IActionResult> StudentLabPage(string id)
         {
-            var userEmail = User.FindFirstValue(ClaimTypes.Email); // Using email to find the user
-            _logger.LogInformation($"User Email: {userEmail}"); // Logging the user email
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            _logger.LogInformation($"User Email: {userEmail}"); 
 
             if (!string.IsNullOrEmpty(userEmail))
             {
-                var student = await _studentService.FindByEmailAsync(userEmail); // Finding the student by email
+                var student = await _studentService.FindByEmailAsync(userEmail);
 
                 if (student != null)
                 {
-                    // Retrieve the lab progress for the specific lab (assuming LabProgress has labComplete and tutorialComplete fields)
+
                     var labProgress = student.LabProgress.FirstOrDefault(lp => lp.LabId == id);
 
                     if (labProgress != null)
@@ -95,6 +93,33 @@ namespace VR_Labs_for_Higher_Education.Controllers
         [HttpGet("LabTutorial/{id}")]
         public async Task<IActionResult> LabTutorial(string id)
         {
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            _logger.LogInformation($"User Email: {userEmail}");
+
+            if (!string.IsNullOrEmpty(userEmail))
+            {
+                var student = await _studentService.FindByEmailAsync(userEmail);
+
+                if (student != null)
+                {
+                    // Retrieve the lab progress for the specific lab
+                    var labProgress = student.LabProgress.FirstOrDefault(lp => lp.LabId == id);
+
+                    if (labProgress != null && !labProgress.TutorialComplete) // Check if the tutorial is not marked as complete
+                    {
+                        // Page was accessed, the student has successfully accessed the tutorial.
+                        ViewBag.LabId = id;
+                        return View();
+                    }
+                }
+            }
+            return RedirectToAction("StudentLabPage", new { id }); // Redirect to StudentLabPage or handle it accordingly
+        }
+
+        // Lab submission logic
+        [HttpPost("CompleteTutorial/{labId}")]
+        public async Task<IActionResult> CompleteTutorial(string labId)
+        {
             var userEmail = User.FindFirstValue(ClaimTypes.Email); // Using email to find the user
             _logger.LogInformation($"User Email: {userEmail}"); // Logging the user email
 
@@ -104,23 +129,18 @@ namespace VR_Labs_for_Higher_Education.Controllers
 
                 if (student != null)
                 {
-                    // Retrieve the lab progress for the specific lab (assuming LabProgress has TutorialComplete field)
-                    var labProgress = student.LabProgress.FirstOrDefault(lp => lp.LabId == id);
-
-                    if (labProgress != null && !labProgress.TutorialComplete) // Check if the tutorial is not marked as complete
+                    var labProgress = student.LabProgress.FirstOrDefault(lp => lp.LabId == labId);
+                    if (labProgress != null)
                     {
-                        // Page was accessed, the student has successfully accessed the tutorial.
+                        _logger.LogInformation($"Lab progress found for lab ID: {labId}"); // Logging the lab ID
                         labProgress.TutorialComplete = true;
                         await _studentService.UpdateStudentAsync(student);
-                        _logger.LogInformation("Updating the tutorial status.");
-                        ViewData["LabId"] = id;
-                        return View();
+                        _logger.LogInformation("Lab progress updated."); // Logging the update
+                        return Ok();
                     }
                 }
             }
-            // If the tutorial is already completed or user information is not found, you can handle it here (e.g., redirect to another page or show a message)
-            _logger.LogInformation("Tutorial has already been completed or user information not found.");
-            return RedirectToAction("StudentLabPage", new { id }); // Redirect to StudentLabPage or handle it accordingly
+            return NotFound();
         }
 
         // Redirect to lab simulation page
@@ -141,16 +161,19 @@ namespace VR_Labs_for_Higher_Education.Controllers
 
                     if (labProgress != null && labProgress.TutorialComplete && !labProgress.IsComplete)
                     {
-                        // Access the lab with the Unity file.
-                        var pathToUnityGame = "~/titrationLab.html";
-                        ViewBag.PathToUnityGame = pathToUnityGame;
+                        labProgress.Attempts++;
+                        foreach (var checkpoint in labProgress.Checkpoints)
+                        {
+                            checkpoint.Timestamp = null;
+                        }
+                        labProgress.StartDate = DateTime.Now;
+                        await _studentService.UpdateStudentAsync(student);
                         ViewBag.LabId = id;
-                        return View("PlayLab");
+                        return View();
                     }
                 }
             }
             // The user has already completed the lab or unauthorized, therefore return to StudentLabPage
-            _logger.LogInformation("Lab has already been completed or user information not found.");
             return RedirectToAction("StudentLabPage", new { id });
         }
 
@@ -170,17 +193,13 @@ namespace VR_Labs_for_Higher_Education.Controllers
                     var labProgress = student.LabProgress.FirstOrDefault(lp => lp.LabId == labId);
                     if (labProgress != null)
                     {
-                        _logger.LogInformation($"Lab progress found for lab ID: {labId}"); // Logging the lab ID
                         labProgress.IsComplete = true;
                         labProgress.EndDate = DateTime.UtcNow;
                         await _studentService.UpdateStudentAsync(student);
-                        _logger.LogInformation("Lab progress updated."); // Logging the update
                         return Ok();
                     }
                 }
             }
-
-            _logger.LogInformation("Lab progress or user email not found."); // Logging when lab progress or email is not found
             return NotFound();
         }
 

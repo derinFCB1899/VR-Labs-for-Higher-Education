@@ -1,23 +1,22 @@
 ﻿@model VR_Labs_for_Higher_Education.Models.StudentProfile
 
-<!-- ... (remaining HTML code) ... -->
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Student Profile Page";
     ViewData["StudentProfile"] = "StudentProfile";
 }
 
-<link rel="stylesheet" href="~/css/site.css">
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
 <div class="container">
     <br /><br /><br />
     <div class="row d-flex justify-content-center">
-        <div class="col-md-4">
-            <div class="profile-sidebar">
+        <div class="col-md-4 mb-5">
+            <div class="profile-sidebar" style="text-align:center;padding-left: 38px;padding-right: 38px;">
                 <div class="profile-userpic">
                     <!-- Enhanced profile picture -->
-                    <img src="~/images/user.png" class="img-responsive profile-avatar" alt="Profile Picture" style="border: 3px solid #ddd; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
+                    <img src="~/images/user.png" class="img-responsive profile-avatar" alt="Profile Picture" style="border: 3px solid #ddd; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.05); width: 75%;
+    height: 50%;">
                 </div>
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name">
@@ -26,14 +25,14 @@
                         {
                             var fullName = User.FindFirst(c => c.Type == "name")?.Value;
                             <!-- Dynamic user name with improved typography -->
-                            <h2 style="font-family: 'Open Sans', sans-serif; color: #333;">@fullName</h2>
+                            <h2 style="font-family: 'Open Sans', sans-serif; color: #333;font-weight: bold;">@fullName</h2>
                         }
                     </div>
                 </div>
             </div>
         </div>
         <br />
-        <div class="col-md-8">
+        <div class="col-md-7">
             <div class="profile-content">
                 <!-- Grades section with improved heading style -->
                 <h2 style="font-family: 'Open Sans', sans-serif; color: #0056b3;">Lab Progress</h2>
@@ -43,7 +42,7 @@
                     {
                         <li style="background-color: #f8f9fa; margin-bottom: 10px; padding: 10px; border-radius: 5px;">
                             Lab Name: @labProgress.LabId<br />
-                            Grade: @(labProgress.Grade.HasValue ? labProgress.Grade.Value.ToString("F2") : "Not Graded")<br />
+                            Grade: @(labProgress.Grade)<br />
                         </li>
                     }
                 </ul>

@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Acid Base Titration";
+    var labId = ViewData["LabId"] as string;
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,9 +18,29 @@
     <div class="content">
         <!-- Video Player -->
         <video controls>
-            <source src="your_video_url_here.mp4" type="video/mp4">
-            Your browser does not support the video tag.
+            <source src="@(Url.Content("~/" + labId + ".mp4"))" type="video/mp4">
         </video>
     </div>
+    <button id="completeTutorialButton" type="button">Complete Tutorial</button>
+    <script>
+        $(document).ready(function () {
+            $('#completeTutorialButton').click(function () {
+                $.ajax({
+                    url: '/Student/CompleteTutorial/' + "@(labId)",
+                    type: 'POST',
+                    success: function (data) {
+                        // If the lab is completed successfully, redirect to the PlayLab page
+                        alert('Tutorial completed successfully!');
+                        window.location.href = '/Student/StudentLabPage/' + "@(labId)";
+                    },
+                    error: function (xhr, status, error) {
+                        // Improved error handling for better diagnosis
+                        var errorMessage = xhr.status + ': ' + xhr.statusText;
+                        alert('An error occurred while completing the lab: ' + errorMessage);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

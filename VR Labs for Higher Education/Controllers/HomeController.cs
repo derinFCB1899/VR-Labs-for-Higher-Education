@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using VR_Labs_for_Higher_Education.Models;
-using VR_Labs_for_Higher_Education.Services;
 
 namespace VR_Labs_for_Higher_Education.Controllers
 {

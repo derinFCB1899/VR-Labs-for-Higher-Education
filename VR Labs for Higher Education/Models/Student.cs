@@ -28,6 +28,7 @@ namespace VR_Labs_for_Higher_Education.Models
 
         public Student()
         {
+            // Student Creation
             LabProgress = new List<LabProgress>();
             Achievements = new List<Achievement>();
         }
@@ -41,11 +42,14 @@ namespace VR_Labs_for_Higher_Education.Models
         [BsonElement("tutorialComplete")]
         public bool TutorialComplete { get; set; }
 
+        [BsonElement("attempts")]
+        public int Attempts { get; set; }
+
         [BsonElement("isComplete")]
         public bool IsComplete { get; set; }
 
         [BsonElement("grade")]
-        public double? Grade { get; set; } // Nullable grade
+        public int? Grade { get; set; } // Nullable grade
 
         [BsonElement("startDate")]
         public DateTime? StartDate { get; set; } // Nullable completion timestamp

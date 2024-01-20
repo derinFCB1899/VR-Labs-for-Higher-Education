@@ -12,6 +12,7 @@ namespace VR_Labs_for_Higher_Education.Services
             _studentCollection = database.GetCollection<Student>("students");
         }
 
+        // API logic to communicate with the Unity Lab Simulation
         public async Task UpdateCheckpointTimestamp(string studentName, string labId, int checkpointIndex, string timestamp)
         {
             var studentFilter = Builders<Student>.Filter.Eq(s => s.Name, studentName);

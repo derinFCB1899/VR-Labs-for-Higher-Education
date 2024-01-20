@@ -9,10 +9,10 @@
 }
 
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="~/css/site.css">
 
 <div class="text-center">
-    <br /><br />
+    <br />
+    <br />
     <p style="font-family: 'Open Sans', sans-serif; font-size: 18px;">Select a student to grade for @labId.</p>
     <br />
     <div class="row">
@@ -37,7 +37,7 @@
 
                 <div class="col-md-4">
                     <div class="student-card" style="padding: 20px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 20px; text-align: left;">
-                        <h3 style="font-family: 'Open Sans', sans-serif; color: #0056b3;text-align: center;">@student["name"]</h3>
+                        <h3 style="font-family: 'Open Sans', sans-serif; color: #283691;text-align: center;">@student["name"]</h3>
                         <br />
                         <p style="font-family: 'Open Sans', sans-serif;"><strong>Lab ID:</strong> @labId</p>
                         <p style="font-family: 'Open Sans', sans-serif;"><strong>Grade:</strong> @(double.IsNaN(currentGrade) ? "Not Graded" : currentGrade.ToString())</p>
@@ -79,16 +79,17 @@
                         </ul>
                         <br />
                         <p style="font-family: 'Open Sans', sans-serif;"><strong>Update Grade:</strong></p>
-                        <form method="post" action="/Instructor/UpdateGrade" style="font-family: 'Open Sans', sans-serif; display: flex; align-items: center; gap: 10px;">
+                        <form method="post" action="/Instructor/UpdateGrade" style="font-family: 'Open Sans', sans-serif; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
                             <input type="hidden" name="studentId" value="@studentId" />
                             <input type="hidden" name="labId" value="@labId" />
                             <input type="number" id="grade" name="grade" step="0.01" style="padding: 5px; border: 1px solid #ddd; border-radius: 5px;" />
-                            <button type="submit" style="background-color: #0056b3; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" class="ml-2">Submit</button>
+                            <button type="submit" style="background-color: #283691; color: white; padding: 6px 18px; border: none; border-radius: 5px; cursor: pointer;" class="ml-2">Submit</button>
                         </form>
                     </div>
                 </div>
             }
         }
     </div>
-    <br /><br />
+    <br />
+    <br />
 </div>

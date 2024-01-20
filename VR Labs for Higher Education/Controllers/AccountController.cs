@@ -2,21 +2,14 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using VR_Labs_for_Higher_Education.Services;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using VR_Labs_for_Higher_Education.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
-using System.Linq;
 
 public class AccountController : Controller
 {
     private readonly IConfiguration _configuration;
-    private readonly StudentService _studentService; // Assuming you have a service layer
-    private readonly InstructorService _instructorService; // Assuming you have a service layer
+    private readonly StudentService _studentService;
+    private readonly InstructorService _instructorService;
     private readonly ILogger<AccountController> _logger;
 
     public AccountController(IConfiguration configuration, StudentService studentService, InstructorService instructorService, ILogger<AccountController> logger)
