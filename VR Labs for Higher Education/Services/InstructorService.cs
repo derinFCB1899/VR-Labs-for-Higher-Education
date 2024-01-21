@@ -52,21 +52,19 @@ namespace VR_Labs_for_Higher_Education.Services
             return result == PasswordVerificationResult.Success;
         }
 
-        // List of Students that Completed the Lab
+        // Scripts to get the list of students that completed the lab
         public async Task<List<BsonDocument>> GetStudentsCompletedLabAsync(string labId)
         {
-            // Build the filter to match students who have completed the specified lab.
+
             var filter = Builders<Student>.Filter.ElemMatch(
                 s => s.LabProgress,
                 lp => lp.LabId == labId && lp.IsComplete
             );
 
-            // Define a projection to include the student name and the specific lab progress
             var projection = Builders<Student>.Projection
                 .Include(s => s.Name)
                 .ElemMatch(s => s.LabProgress, lp => lp.LabId == labId);
 
-            // Find the students and project the required fields.
             var studentsWithCompletedLabs = await _studentCollection
                 .Find(filter)
                 .Project<BsonDocument>(projection)
@@ -75,23 +73,20 @@ namespace VR_Labs_for_Higher_Education.Services
             return studentsWithCompletedLabs;
         }
 
-        // Student Grading Script
+        // Script for updating student grade
         public async Task<bool> UpdateStudentGradeAsync(string studentId, string labId, double grade)
         {
-            // Define filter to find the specific student and lab progress
+
             var filter = Builders<Student>.Filter.And(
                 Builders<Student>.Filter.Eq(s => s.Id, studentId),
                 Builders<Student>.Filter.ElemMatch(s => s.LabProgress, lp => lp.LabId == labId)
             );
 
-            // Define the update to set the new grade using the positional operator $
             var update = Builders<Student>.Update
                 .Set("LabProgress.$.Grade", grade);
 
-            // Perform the update operation
             var updateResult = await _studentCollection.UpdateOneAsync(filter, update);
 
-            // Return true if the update was successful, false otherwise
             return updateResult.ModifiedCount > 0;
         }
 

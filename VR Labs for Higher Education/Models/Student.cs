@@ -49,7 +49,7 @@ namespace VR_Labs_for_Higher_Education.Models
         public bool IsComplete { get; set; }
 
         [BsonElement("grade")]
-        public int? Grade { get; set; } // Nullable grade
+        public double? Grade { get; set; }
 
         [BsonElement("startDate")]
         public DateTime? StartDate { get; set; } // Nullable completion timestamp

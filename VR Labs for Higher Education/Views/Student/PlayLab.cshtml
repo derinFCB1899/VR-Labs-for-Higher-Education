@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "";
+    Layout = "_Layout";
     ViewData["Title"] = "Acid Base Titration";
     var labId = ViewData["LabId"] as string;
 }
@@ -12,16 +12,26 @@
     <title>Unity WebGL Player</title>
     <script src="/lib/jquery/dist/jquery.js"></script>
     <link rel="stylesheet" href="~/css/lab.css">
+    <style>
+        .centered-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            margin-bottom: 25px;
+            margin-top: -100px;
+        }
+    </style>
 </head>
 <body>
-    <br />
     <div class="content">
-        <!-- Video Player -->
+        <!-- Lab Simulation Frame -->
         <iframe src="@(Url.Content("~/" + labId + ".html"))"></iframe>
     </div>
-    <br />
-    <button id="completeLabButton" type="button">Complete Lab</button>
-    <br />
+    <!-- Lab Submission -->
+    <div class="centered-container">
+        <button id="completeLabButton" type="button">Complete Lab</button>
+    </div>
     <!-- Lab submission script -->
     <script>
         $(document).ready(function () {
@@ -30,12 +40,10 @@
                     url: '/Student/CompleteLab/' + "@(labId)",
                     type: 'POST',
                     success: function (data) {
-                        // If the lab is completed successfully, redirect to the PlayLab page
                         alert('Lab completed successfully!');
                         window.location.href = '/Student/StudentLabPage/' + "@(labId)";
                     },
                     error: function (xhr, status, error) {
-                        // Improved error handling for better diagnosis
                         var errorMessage = xhr.status + ': ' + xhr.statusText;
                         alert('An error occurred while completing the lab: ' + errorMessage);
                     }

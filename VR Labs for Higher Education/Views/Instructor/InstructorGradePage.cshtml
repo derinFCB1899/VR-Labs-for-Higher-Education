@@ -31,6 +31,11 @@
 
                 var checkpointsArray = labProgress["checkpoints"].AsBsonArray;
                 var sortedCheckpoints = checkpointsArray.OrderBy(c => c["timestamp"]).ToList();
+                var attempts = labProgress["attempts"].AsInt32;
+                var startDate = labProgress["startDate"].ToUniversalTime().AddHours(3);
+                var endDate = labProgress["endDate"].ToUniversalTime().AddHours(3);
+                var totalTimeTaken = endDate - startDate;
+
 
                 var studentId = student["_id"].ToString();
                 DateTime? previousCheckpointTime = null;
@@ -41,12 +46,31 @@
                         <br />
                         <p style="font-family: 'Open Sans', sans-serif;"><strong>Lab ID:</strong> @labId</p>
                         <p style="font-family: 'Open Sans', sans-serif;"><strong>Grade:</strong> @(double.IsNaN(currentGrade) ? "Not Graded" : currentGrade.ToString())</p>
+                        <br />
+                        <p style="font-family: 'Open Sans', sans-serif;"><strong>Attempts:</strong> @attempts</p>
+                        <p style="font-family: 'Open Sans', sans-serif;"><strong>Start Date:</strong> @startDate.ToString("HH:mm:ss")</p>
+                        <p style="font-family: 'Open Sans', sans-serif;"><strong>End Date:</strong> @endDate.ToString("HH:mm:ss")</p>
+                        <p style="font-family: 'Open Sans', sans-serif;"><strong>Total Time Taken:</strong> @totalTimeTaken.ToString(@"hh\:mm\:ss")</p>
+
                         <!-- Display date -->
                         @if (sortedCheckpoints.Any())
                         {
-                            var initialDate = sortedCheckpoints.First()["timestamp"].ToUniversalTime();
-                            <p style="font-family: 'Open Sans', sans-serif;"><strong>Date:</strong> @initialDate.ToString("MM/dd/yyyy")</p>
+                            @if (sortedCheckpoints.Any())
+                            {
+                                var initialDate = sortedCheckpoints.First()["timestamp"].ToNullableUniversalTime();
+                                var dateString = initialDate.HasValue ? initialDate.Value.ToString("MM/dd/yyyy") : "Not Available";
+                                <p style="font-family: 'Open Sans', sans-serif;"><strong>Date:</strong> @dateString</p>
+                            }
+                            else
+                            {
+                                <p style="font-family: 'Open Sans', sans-serif;"><strong>Date:</strong> Not Available</p>
+                            }
                         }
+                        else
+                        {
+                            <p style="font-family: 'Open Sans', sans-serif;"><strong>Date:</strong> Not Available</p>
+                        }
+
                         <!-- Display checkpoints -->
                         <p style="font-family: 'Open Sans', sans-serif;margin-bottom:2px;">
                             <strong>Checkpoints:</strong>
@@ -54,10 +78,10 @@
                         <ul style="list-style-type: disc;padding-left: 20px;">
                             @foreach (var checkpoint in sortedCheckpoints)
                             {
-                                var checkpointTimestamp = checkpoint["timestamp"].IsValidDateTime ? checkpoint["timestamp"].ToUniversalTime() : (DateTime?)null;
+                                var checkpointTimestamp = checkpoint["timestamp"].ToNullableUniversalTime();
                                 var timeDifference = checkpointTimestamp.HasValue && previousCheckpointTime.HasValue ? checkpointTimestamp.Value.Subtract(previousCheckpointTime.Value) : TimeSpan.Zero;
 
-                                // Add 3 hours to the checkpoint timestamp
+                                // Add 3 hours to the checkpoint timestamp (For İstanbul)
                                 var checkpointTimestampPlus3Hours = checkpointTimestamp?.AddHours(3);
 
                                 var formattedTime = checkpointTimestampPlus3Hours?.ToString("HH:mm:ss") ?? "Not Set";

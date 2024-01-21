@@ -25,4 +25,16 @@ iframe {
     width: 120px;
     height: 40px;
     align-self: center;
+    background-color: green;
+    color: white;
+}
+
+#completeTutorialButton {
+    position: absolute;
+    margin: 20px;
+    width: 180px;
+    height: 40px;
+    align-self: center;
+    background-color: orange;
+    color: white;
 }

@@ -26,15 +26,13 @@ namespace VR_Labs_for_Higher_Education.Services
                 combinedFilter,
                 updateDefinition);
 
-            // Log the result of the update operation
+
             if (updateResult.MatchedCount == 0)
             {
-                // The student document was not found
                 throw new KeyNotFoundException("No matching student document found.");
             }
             else if (updateResult.ModifiedCount == 0)
             {
-                // The checkpoint was not found, or the timestamp was already set to the new value
                 throw new Exception("The checkpoint was not updated. It might not exist or the timestamp was already set to this value.");
             }
         }

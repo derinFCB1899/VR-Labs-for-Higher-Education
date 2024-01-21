@@ -12,16 +12,30 @@
     <title>Unity WebGL Player</title>
     <script src="/lib/jquery/dist/jquery.js"></script>
     <link rel="stylesheet" href="~/css/lab.css">
+    <style>
+        .centered-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+            margin-bottom: 25px
+        }
+    </style>
 </head>
 <body>
-    <br />
-    <div class="content">
-        <!-- Video Player -->
-        <video controls>
+    <br /><br />
+    <div class="content" style="margin-top: 35px;">
+        <!-- Video Player for Tutorial -->
+        <video controls style="display: block; margin: auto; width: 75%;">
             <source src="@(Url.Content("~/" + labId + ".mp4"))" type="video/mp4">
         </video>
     </div>
-    <button id="completeTutorialButton" type="button">Complete Tutorial</button>
+    <br />
+    <!-- Tutorial Submission -->
+    <div class="centered-container">
+        <button id="completeTutorialButton" type="button">Complete Tutorial</button>
+    </div>
+    <!-- Tutorial submission script -->
     <script>
         $(document).ready(function () {
             $('#completeTutorialButton').click(function () {
@@ -29,12 +43,10 @@
                     url: '/Student/CompleteTutorial/' + "@(labId)",
                     type: 'POST',
                     success: function (data) {
-                        // If the lab is completed successfully, redirect to the PlayLab page
                         alert('Tutorial completed successfully!');
                         window.location.href = '/Student/StudentLabPage/' + "@(labId)";
                     },
                     error: function (xhr, status, error) {
-                        // Improved error handling for better diagnosis
                         var errorMessage = xhr.status + ': ' + xhr.statusText;
                         alert('An error occurred while completing the lab: ' + errorMessage);
                     }

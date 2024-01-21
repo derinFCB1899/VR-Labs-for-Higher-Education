@@ -6,6 +6,7 @@
     ViewData["StudentProfile"] = "StudentProfile";
 }
 
+<!-- Import fonts from Google Fonts service -->
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
 <div class="container">
@@ -14,9 +15,7 @@
         <div class="col-md-4 mb-5">
             <div class="profile-sidebar" style="text-align:center;padding-left: 38px;padding-right: 38px;">
                 <div class="profile-userpic">
-                    <!-- Enhanced profile picture -->
-                    <img src="~/images/user.png" class="img-responsive profile-avatar" alt="Profile Picture" style="border: 3px solid #ddd; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.05); width: 75%;
-    height: 50%;">
+                    <img src="~/images/user.png" class="img-responsive profile-avatar" alt="Profile Picture" style="border: 3px solid #ddd; border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.05); width: 75%;height: 50%;">
                 </div>
                 <div class="profile-usertitle">
                     <div class="profile-usertitle-name">
@@ -24,7 +23,6 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             var fullName = User.FindFirst(c => c.Type == "name")?.Value;
-                            <!-- Dynamic user name with improved typography -->
                             <h2 style="font-family: 'Open Sans', sans-serif; color: #333;font-weight: bold;">@fullName</h2>
                         }
                     </div>
@@ -34,7 +32,7 @@
         <br />
         <div class="col-md-7">
             <div class="profile-content">
-                <!-- Grades section with improved heading style -->
+                <!-- Grades section -->
                 <h2 style="font-family: 'Open Sans', sans-serif; color: #0056b3;">Lab Progress</h2>
                 <br />
                 <ul class="lab-progress-list" style="list-style: none; padding: 0;">
@@ -42,20 +40,23 @@
                     {
                         <li style="background-color: #f8f9fa; margin-bottom: 10px; padding: 10px; border-radius: 5px;">
                             Lab Name: @labProgress.LabId<br />
-                            Grade: @(labProgress.Grade)<br />
+                            Grade: @(labProgress.Grade == null ? "-" : labProgress.Grade.ToString())<br />
                         </li>
                     }
                 </ul>
                 <br />
                 <br />
-                <!-- Awards section with improved heading style -->
+                <!-- Awards section -->
                 <h2 style="font-family: 'Open Sans', sans-serif; color: #0056b3;">Awards</h2>
                 <br />
                 <div class="awards">
-                    <!-- Dynamic achievement icons -->
-                    @for (int i = 0; i < 1; i++)
+                    <!-- Achievements Section -->
+                    @foreach (var labProgress in Model.LabProgresses)
                     {
-                        <img src="~/images/achievement.png" alt="Achievement" style="width: 50px; height: 50px; margin: 5px;">
+                        @if (labProgress.Grade != null)
+                        {
+                            <img src="~/images/achievement.png" alt="Achievement" style="width: 50px; height: 50px; margin: 5px;">
+                        }
                     }
                 </div>
             </div>
