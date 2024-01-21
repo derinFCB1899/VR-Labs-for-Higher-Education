@@ -47,10 +47,6 @@
                         <p style="font-family: 'Open Sans', sans-serif;"><strong>Lab ID:</strong> @labId</p>
                         <p style="font-family: 'Open Sans', sans-serif;"><strong>Grade:</strong> @(double.IsNaN(currentGrade) ? "Not Graded" : currentGrade.ToString())</p>
                         <br />
-                        <p style="font-family: 'Open Sans', sans-serif;"><strong>Attempts:</strong> @attempts</p>
-                        <p style="font-family: 'Open Sans', sans-serif;"><strong>Start Date:</strong> @startDate.ToString("HH:mm:ss")</p>
-                        <p style="font-family: 'Open Sans', sans-serif;"><strong>End Date:</strong> @endDate.ToString("HH:mm:ss")</p>
-                        <p style="font-family: 'Open Sans', sans-serif;"><strong>Total Time Taken:</strong> @totalTimeTaken.ToString(@"hh\:mm\:ss")</p>
 
                         <!-- Display date -->
                         @if (sortedCheckpoints.Any())
@@ -70,6 +66,11 @@
                         {
                             <p style="font-family: 'Open Sans', sans-serif;"><strong>Date:</strong> Not Available</p>
                         }
+
+                        <p style="font-family: 'Open Sans', sans-serif;"><strong>Attempts:</strong> @attempts</p>
+                        <p style="font-family: 'Open Sans', sans-serif;"><strong>Start Time:</strong> @startDate.ToString("HH:mm:ss")</p>
+                        <p style="font-family: 'Open Sans', sans-serif;"><strong>End Time:</strong> @endDate.ToString("HH:mm:ss")</p>
+                        <p style="font-family: 'Open Sans', sans-serif;"><strong>Total Time Taken:</strong> @totalTimeTaken.ToString(@"hh\:mm\:ss")</p>
 
                         <!-- Display checkpoints -->
                         <p style="font-family: 'Open Sans', sans-serif;margin-bottom:2px;">
