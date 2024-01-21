@@ -85,7 +85,7 @@
                                 // Add 3 hours to the checkpoint timestamp (For İstanbul)
                                 var checkpointTimestampPlus3Hours = checkpointTimestamp?.AddHours(3);
 
-                                var formattedTime = checkpointTimestampPlus3Hours?.ToString("HH:mm:ss") ?? "Not Set";
+                                var formattedTime = checkpointTimestampPlus3Hours?.ToString("HH:mm:ss") ?? "--";
                                 var checkpointName = checkpoint["name"].AsString;
                                 previousCheckpointTime = checkpointTimestamp;
 

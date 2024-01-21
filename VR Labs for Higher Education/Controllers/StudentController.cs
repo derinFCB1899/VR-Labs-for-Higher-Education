@@ -93,6 +93,11 @@ namespace VR_Labs_for_Higher_Education.Controllers
         [HttpGet("LabTutorial/{id}")]
         public async Task<IActionResult> LabTutorial(string id)
         {
+
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             _logger.LogInformation($"User Email: {userEmail}");
 
@@ -102,40 +107,38 @@ namespace VR_Labs_for_Higher_Education.Controllers
 
                 if (student != null)
                 {
-                    // Retrieve the lab progress for the specific lab
                     var labProgress = student.LabProgress.FirstOrDefault(lp => lp.LabId == id);
 
-                    if (labProgress != null && !labProgress.TutorialComplete) // Check if the tutorial is not marked as complete
+                    if (labProgress != null && !labProgress.TutorialComplete) 
                     {
-                        // Page was accessed, the student has successfully accessed the tutorial.
                         ViewBag.LabId = id;
                         return View();
                     }
                 }
             }
-            return RedirectToAction("StudentLabPage", new { id }); // Redirect to StudentLabPage or handle it accordingly
+            return RedirectToAction("StudentLabPage", new { id });
         }
 
         // Lab submission logic
         [HttpPost("CompleteTutorial/{labId}")]
         public async Task<IActionResult> CompleteTutorial(string labId)
         {
-            var userEmail = User.FindFirstValue(ClaimTypes.Email); // Using email to find the user
-            _logger.LogInformation($"User Email: {userEmail}"); // Logging the user email
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            _logger.LogInformation($"User Email: {userEmail}");
 
             if (!string.IsNullOrEmpty(userEmail))
             {
-                var student = await _studentService.FindByEmailAsync(userEmail); // Finding the student by email
+                var student = await _studentService.FindByEmailAsync(userEmail);
 
                 if (student != null)
                 {
                     var labProgress = student.LabProgress.FirstOrDefault(lp => lp.LabId == labId);
                     if (labProgress != null)
                     {
-                        _logger.LogInformation($"Lab progress found for lab ID: {labId}"); // Logging the lab ID
+                        _logger.LogInformation($"Lab progress found for lab ID: {labId}");
                         labProgress.TutorialComplete = true;
                         await _studentService.UpdateStudentAsync(student);
-                        _logger.LogInformation("Lab progress updated."); // Logging the update
+                        _logger.LogInformation("Lab progress updated.");
                         return Ok();
                     }
                 }
@@ -147,16 +150,21 @@ namespace VR_Labs_for_Higher_Education.Controllers
         [HttpGet("PlayLab/{id}")]
         public async Task<IActionResult> PlayLab(string id)
         {
-            var userEmail = User.FindFirstValue(ClaimTypes.Email); // Using email to find the user
-            _logger.LogInformation($"User Email: {userEmail}"); // Logging the user email
+
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
+
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            _logger.LogInformation($"User Email: {userEmail}");
 
             if (!string.IsNullOrEmpty(userEmail))
             {
-                var student = await _studentService.FindByEmailAsync(userEmail); // Finding the student by email
+                var student = await _studentService.FindByEmailAsync(userEmail);
 
                 if (student != null)
                 {
-                    // Retrieve the lab progress for the specific lab (assuming LabProgress has IsComplete field)
+
                     var labProgress = student.LabProgress.FirstOrDefault(lp => lp.LabId == id);
 
                     if (labProgress != null && labProgress.TutorialComplete && !labProgress.IsComplete)
@@ -173,7 +181,6 @@ namespace VR_Labs_for_Higher_Education.Controllers
                     }
                 }
             }
-            // The user has already completed the lab or unauthorized, therefore return to StudentLabPage
             return RedirectToAction("StudentLabPage", new { id });
         }
 
@@ -181,12 +188,12 @@ namespace VR_Labs_for_Higher_Education.Controllers
         [HttpPost("CompleteLab/{labId}")]
         public async Task<IActionResult> CompleteLab(string labId)
         {
-            var userEmail = User.FindFirstValue(ClaimTypes.Email); // Using email to find the user
-            _logger.LogInformation($"User Email: {userEmail}"); // Logging the user email
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            _logger.LogInformation($"User Email: {userEmail}");
 
             if (!string.IsNullOrEmpty(userEmail))
             {
-                var student = await _studentService.FindByEmailAsync(userEmail); // Finding the student by email
+                var student = await _studentService.FindByEmailAsync(userEmail); 
 
                 if (student != null)
                 {
@@ -202,6 +209,7 @@ namespace VR_Labs_for_Higher_Education.Controllers
             }
             return NotFound();
         }
+
 
     }
 

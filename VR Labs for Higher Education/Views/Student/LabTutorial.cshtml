@@ -21,6 +21,14 @@
             margin-bottom: 25px
         }
     </style>
+    <script>
+        window.onload = function () {
+            window.history.pushState(null, "", window.location.href);
+            window.onpopstate = function () {
+                window.history.pushState(null, "", window.location.href);
+            };
+        };
+    </script>
 </head>
 <body>
     <br /><br />
@@ -39,16 +47,18 @@
     <script>
         $(document).ready(function () {
             $('#completeTutorialButton').click(function () {
+                var labId = "@(labId)"; // Ensure that labId is properly set in the scope
                 $.ajax({
-                    url: '/Student/CompleteTutorial/' + "@(labId)",
+                    url: '/Student/CompleteTutorial/' + labId,
                     type: 'POST',
                     success: function (data) {
                         alert('Tutorial completed successfully!');
-                        window.location.href = '/Student/StudentLabPage/' + "@(labId)";
+                        // Redirect to the lab information page in the same tab
+                        window.location.href = '/Student/StudentLabPage/' + labId;
                     },
                     error: function (xhr, status, error) {
                         var errorMessage = xhr.status + ': ' + xhr.statusText;
-                        alert('An error occurred while completing the lab: ' + errorMessage);
+                        alert('An error occurred while completing the tutorial: ' + errorMessage);
                     }
                 });
             });
